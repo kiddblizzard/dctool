@@ -1,0 +1,32 @@
+# Read the documentation: https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
+fos_rest:
+    param_fetcher_listener:  true
+    allowed_methods_listener:  true
+    routing_loader: true
+    view:
+        view_response_listener:  false
+    exception:
+        enabled: false
+        # codes:
+        #     'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+        #     'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+        # messages:
+        #     'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+        # exception_controller: 'fos_rest.exception.controller:showAction'
+
+   # format_listener:
+   #     rules:
+   #         - { path: ^/api, prefer_extension: true, fallback_format: json, priorities: [ json, html ] }
+
+#     view:
+#         mime_types:
+#             json: ['application/json', 'application/json;version=1.0', 'application/json;version=1.1']
+#         view_response_listener: 'force'
+#         formats:
+#             json: true
+#         templating_formats:
+#             html: false
+# services:
+#     view_handler: my.view_handler
+#     my.view_handler:
+#         parent: fos_rest.view_handler.default

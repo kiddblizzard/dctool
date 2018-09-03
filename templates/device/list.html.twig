@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+        <div>
+            <a
+                class="btn btn-primary"
+                href="{{ path('new_device') }}"
+            >
+                New Device
+            </a>
+
+            <a
+                class="btn btn-primary"
+                href="{{ path('new_device') }}"
+            >
+                Upload Excel
+            </a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>SN</th>
+                    <th>Barcode</th>
+                    <th>Rack</th>
+                    <th>Band</th>
+                    <th>Model</th>
+                    <th>PO</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in devices %}
+                <tr>
+                    <td>
+                        <a href="
+                            {{ path('edit_device',
+                            {'device':item.getId()}) }}
+                        ">
+                            {{ item.getName() }}
+                        </a>
+                    </td>
+                    <td> {{ item.getSerialNumber() }} </td>
+                    <td> {{ item.getBarcodeNumber() }} </td>
+                    <td> {{ item.getRack() }}</td>
+                    <td> {{ item.getModel().getManufacturer() }} </td>
+                    <td> {{ item.getModel().getModel() }} </td>
+                    <td> {{ item.getPo() }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

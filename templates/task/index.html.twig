@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+        <div>
+            <a
+                class="btn btn-primary"
+                href="{{ path('new_task') }}"
+            >
+                New Task
+            </a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Due Date</th>
+                    <th>Description</th>
+                    <th>Delivery</th>
+                    <th>CT Access</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td class=""> {{ task.getDueDate() | date("Y-m-d ") }} </td>
+                    <td> {{ task.getContent() }} </td>
+                    <td> {{ task.getDelivery() }} </td>
+                    <td> {{ task.getHasCtAccess() }} </td>
+                    <td> {{ task.getStatus() }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+        <!-- <div class="form-group">
+            <label class="required">Manufacturer</label>
+            <select id="device_manufacturer_select">
+                {% for item in manufacturers %}
+                <option value="{{ item.getId() }}">
+                    {{ item.getName() }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="required">Type</label>
+            <select id="">
+                <option>select</option>
+            </select>
+        </div> -->
+        <form method="POST">
+            {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.model) }}
+                {{ form_errors(form.model) }}
+                {{ form_widget(form.model, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.serialNumber) }}
+                {{ form_errors(form.serialNumber) }}
+                {{ form_widget(form.serialNumber, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.name) }}
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.barcode_number) }}
+                {{ form_errors(form.barcode_number) }}
+                {{ form_widget(form.barcode_number, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.po) }}
+                {{ form_errors(form.po) }}
+                {{ form_widget(form.po, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.rack) }}
+                {{ form_errors(form.rack) }}
+                {{ form_widget(form.rack, {'attr': {class: 'form-control'} }) }}
+            </div>
+            {{ form_widget(form.save, {'attr':{class:'btn btn-primary'}}) }}
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}

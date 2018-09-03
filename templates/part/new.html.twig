@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+        <!-- <div class="form-group">
+            <label class="required">Manufacturer</label>
+            <select id="device_manufacturer_select">
+                {% for item in manufacturers %}
+                <option value="{{ item.getId() }}">
+                    {{ item.getName() }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="required">Type</label>
+            <select id="">
+                <option>select</option>
+            </select>
+        </div> -->
+        <form method="POST">
+            {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.model) }}
+                {{ form_errors(form.model) }}
+                {{ form_widget(form.model, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.amount) }}
+                {{ form_errors(form.amount) }}
+                {{ form_widget(form.amount, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.location) }}
+                {{ form_errors(form.location) }}
+                {{ form_widget(form.location, {'attr': {class: 'form-control'} }) }}
+            </div>
+            {{ form_widget(form.save, {'attr':{class:'btn btn-primary'}}) }}
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}
