@@ -3,6 +3,7 @@
     {% include "nav/nav.twig" %}
     <div class="container-fluid">
         <div>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <a
                 class="btn btn-primary"
                 href="{{ path('new_task') }}"
@@ -23,7 +24,16 @@
             <tbody>
                 {% for task in tasks %}
                 <tr>
-                    <td class=""> {{ task.getDueDate() | date("Y-m-d ") }} </td>
+                    <td class="">
+                        <a href="
+                            {{ path(
+                                'edit_task',
+                                {'task':task.getId()}
+                            ) }}
+                        ">
+                            {{ task.getDueDate() | date("m/d/y ") }}
+                        </a>
+                    </td>
                     <td> {{ task.getContent() }} </td>
                     <td> {{ task.getDelivery() }} </td>
                     <td> {{ task.getHasCtAccess() }} </td>

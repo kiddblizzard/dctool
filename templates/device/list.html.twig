@@ -3,6 +3,8 @@
     {% include "nav/nav.twig" %}
     <div class="container-fluid">
         <div>
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+
             <a
                 class="btn btn-primary"
                 href="{{ path('new_device') }}"
@@ -34,8 +36,10 @@
                 <tr>
                     <td>
                         <a href="
-                            {{ path('edit_device',
-                            {'device':item.getId()}) }}
+                            {{ path(
+                                'edit_device',
+                                {'device':item.getId()}
+                            ) }}
                         ">
                             {{ item.getName() }}
                         </a>

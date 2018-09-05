@@ -2,23 +2,6 @@
 {% block body %}
     {% include "nav/nav.twig" %}
     <div class="container-fluid">
-        <!-- <div class="form-group">
-            <label class="required">Manufacturer</label>
-            <select id="device_manufacturer_select">
-                {% for item in manufacturers %}
-                <option value="{{ item.getId() }}">
-                    {{ item.getName() }}
-                </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label class="required">Type</label>
-            <select id="">
-                <option>select</option>
-            </select>
-        </div> -->
         <form method="POST">
             {{ form_start(form) }}
             <div class="form-group">
