@@ -67,6 +67,36 @@ class PartController extends Controller
     }
 
     /**
+     * @Route("/parts/{part}/eidt", name="edit_part")
+     * @param  Part $part
+     * @param  Request $request [description]
+     * @return [type] [description]
+     */
+    public function editAction(Part $part, Request $request)
+    {
+        $form = $this->getPartForm(
+            $part,
+            $this->generateUrl(
+                'edit_part',
+                ['part' => $part->getId()]
+            )
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $item = $form->getData();
+            $this->savePart($item);
+
+            return $this->redirectToRoute('parts');
+        }
+
+        return $this->render('part/new.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
      * [getPartForm description]
      * @param  Part   $part [description]
      * @param  String $path [description]

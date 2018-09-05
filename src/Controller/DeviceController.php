@@ -73,8 +73,6 @@ class DeviceController extends Controller
      */
     public function editAction(Device $device, Request $request)
     {
-
-        // var_dump($device);
         $form = $this->getDeivceForm(
             $device,
             $this->generateUrl(
@@ -87,7 +85,7 @@ class DeviceController extends Controller
             ->getRepository(Manufacturer::class)
             ->findAll();
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $device = $form->getData();

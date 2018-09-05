@@ -3,12 +3,17 @@
     {% include "nav/nav.twig" %}
     <div class="container-fluid">
         <div>
-            <a
-                class="btn btn-primary"
-                href="{{ path('new_part') }}"
-            >
-                New Part
-            </a>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <a
+                    class="btn btn-primary"
+                    href="{{ path('new_part') }}"
+                >
+                    New Part
+                </a>
+            </form>
+
         </div>
         <table class="table">
             <thead>
@@ -23,7 +28,16 @@
                 {% for item in parts %}
                 <tr>
                     <td class=""> {{ item.getModel().getManufacturer() }} </td>
-                    <td> {{ item.getModel().getModel() }} </td>
+                    <td>
+                        <a href="
+                            {{ path(
+                                'edit_part',
+                                {'part':item.getId()}
+                            ) }}
+                        ">
+                            {{ item.getModel().getModel() }}
+                        </a>
+                    </td>
                     <td> {{ item.getAmount() }} </td>
                     <td> {{ item.getLocation() }} </td>
                 </tr>

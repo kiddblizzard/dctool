@@ -39,8 +39,63 @@ class taskController extends Controller
      */
     public function newAction(Request $request) {
         $task = New Task();
-        $form = $this->createFormBuilder($task)
-            ->setAction($this->generateUrl('new_task'))
+        $form = $this->getTaskForm($task, $this->generateUrl('new_task'));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
+            $task->setStatus('new');
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $this->saveTask($task);
+            return $this->redirectToRoute('tasks');
+        }
+
+        return $this->render('task/new.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/tasks/{task}/eidt", name="edit_task")
+     * @param  Task $task
+     * @param  Request $request [description]
+     * @return [type] [description]
+     */
+    public function editAction(Task $task, Request $request)
+    {
+        $form = $this->getTaskForm(
+            $task,
+            $this->generateUrl(
+                'edit_task',
+                ['task' => $task->getId()]
+            )
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $item = $form->getData();
+            $this->saveTask($item);
+
+            return $this->redirectToRoute('tasks');
+        }
+
+        return $this->render('task/new.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * [getTaskForm description]
+     * @param  Task   $task [description]
+     * @param  [type] $path [description]
+     * @return [type]       [description]
+     */
+    private function getTaskForm(Task $task, $path)
+    {
+        return $this->createFormBuilder($task)
+            ->setAction($path)
             ->setMethod('POST')
             ->add('content', TextType::class)
             ->add('delivery', TextType::class, ['required' => false])
@@ -54,35 +109,19 @@ class taskController extends Controller
             ])
             ->add('save', SubmitType::class, array('label' => 'Submit'))
             ->getForm();
+    }
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $task = $form->getData();
-            $task->setStatus('new');
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($task);
-            $entityManager->flush();
-            return $this->redirectToRoute('tasks');
-        }
-
-        return $this->render('task/new.html.twig', array(
-            'form' => $form->createView()
-        ));
+    private function saveTask($task)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($task);
+        $entityManager->flush();
     }
 
     /**
-     * [index description]
-     * @Route("/tasks/create", name="create_task")
-     * @param  Request $request [description]
+     * [getRepository description]
      * @return [type] [description]
      */
-    public function treat_create_task(Request $request) {
-
-    }
-
     private function getRepository () {
         return $this->getDoctrine()->getRepository(Task::class);
     }
