@@ -3,7 +3,16 @@
     {% include "nav/nav.twig" %}
     <div class="container-fluid">
         <div>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <form method="GET" class="form-inline my-2 my-lg-0">
+                <input
+                    name="keyWord"
+                    class="form-control mr-sm-2"
+                    type="search" placeholder="Search"
+                    aria-label="Search"
+                    value="{{ keyWord }}"
+                >
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
             <a
                 class="btn btn-primary"
                 href="{{ path('new_task') }}"
@@ -22,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for task in tasks %}
+                {% for task in pagination %}
                 <tr>
                     <td class="">
                         <a href="
@@ -42,5 +51,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        {# display navigation #}
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
     </div>
 {% endblock %}
