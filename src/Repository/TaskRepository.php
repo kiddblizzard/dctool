@@ -47,4 +47,17 @@ class TaskRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByKeyword($keyWord = null)
+    {
+        $query = $this->createQueryBuilder('t');
+
+        if (!is_null($keyWord) && !empty($keyWord)) {
+            $query->where($query->expr()->like('t.content', '?1'))
+                ->setParameter('1', '%'.$keyWord.'%');
+        }
+        $query->orderBy('t.due_date', 'DESC');
+
+        return $query->getQuery();
+    }
 }

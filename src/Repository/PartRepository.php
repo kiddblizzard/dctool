@@ -47,4 +47,18 @@ class PartRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByKeyword($keyWord = null)
+    {
+        $query = $this->createQueryBuilder('p');
+
+        if (!is_null($keyWord) && !empty($keyWord)) {
+            $query->leftJoin('p.model', 'm')
+                ->where($query->expr()->like('m.model', '?1'))
+                ->setParameter('1', '%'.$keyWord.'%');
+        }
+        $query->orderBy('p.id', 'DESC');
+
+        return $query->getQuery();
+    }
 }

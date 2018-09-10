@@ -25,4 +25,19 @@ class DeviceRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByKeyword($keyWord = null)
+    {
+        $query = $this->createQueryBuilder('d');
+
+        if (!is_null($keyWord) && !empty($keyWord)) {
+            $query->where($query->expr()->like('d.name', '?1'))
+                ->orWhere($query->expr()->like('d.serialNumber', '?1'))
+                ->orWhere($query->expr()->like('d.barcode_number', '?1'))
+                ->setParameter('1', '%'.$keyWord.'%');
+        }
+        $query->orderBy('d.id', 'DESC');
+
+        return $query->getQuery();
+    }
 }

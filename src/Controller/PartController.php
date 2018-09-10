@@ -19,17 +19,27 @@ class PartController extends Controller
     /**
      * show the list of devices
      * @Route("/parts", name="parts")
-     *
+     * @param  Request $request [description]
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function list()
+    public function list(Request $request)
     {
-        $parts = $this->getDoctrine()
-        ->getRepository(Part::class)
-        ->findAll();
+        $pageNumber = $request->query->get('page', 1);
+        $keyWord = $request->query->get('keyWord', null);
+
+        $query = $this->getRepository()->findByKeyword($keyWord);
+
+        $paginator = $this->get('knp_paginator');
+
+        $pagination = $paginator->paginate(
+            $query,
+            $pageNumber,
+            10
+        );
 
         return $this->render('part/list.html.twig', array(
-            'parts' => $parts,
+            'parts' => $pagination,
+            'keyWord' => $keyWord
         ));
     }
 
@@ -125,4 +135,11 @@ class PartController extends Controller
         $entityManager->flush();
     }
 
+    /**
+     * [getRepository description]
+     * @return [type] [description]
+     */
+    private function getRepository() {
+        return $this->getDoctrine()->getRepository(Part::class);
+    }
 }

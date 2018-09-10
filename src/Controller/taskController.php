@@ -20,14 +20,27 @@ class taskController extends Controller
     /**
      * [index description]
      * @Route("/tasks", name="tasks")
+     * @param  Request $request [description]
      * @return [type] [description]
      */
-    public function getIndexAction()
+    public function getIndexAction(Request $request)
     {
-        $task = New Task();
+        $pageNumber = $request->query->get('page', 1);
+        $keyWord = $request->query->get('keyWord', null);
+
+        $query = $this->getRepository()->findByKeyword($keyWord);
+
+        $paginator = $this->get('knp_paginator');
+
+        $pagination = $paginator->paginate(
+            $query,
+            $pageNumber,
+            5
+        );
 
         return $this->render('task/index.html.twig', array(
-            'tasks' => $this->getRepository()->findBy([],['due_date'=>'desc'])
+            'pagination' => $pagination,
+            'keyWord' => $keyWord,
         ));
     }
 
