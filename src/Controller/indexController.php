@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Task;
 
 
-class indexController extends Controller
+class IndexController extends Controller
 {
     /**
      * [index description]

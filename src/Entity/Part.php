@@ -45,10 +45,8 @@ class Part
     private $amount;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="text", length=100, nullable=true)
-     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Location", inversedBy="parts")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $location;
 
@@ -112,12 +110,12 @@ class Part
         return $this;
     }
 
-    public function getLocation(): ?string
+    public function getLocation(): ?Location
     {
         return $this->location;
     }
 
-    public function setLocation(?string $location): self
+    public function setLocation(?Location $location): self
     {
         $this->location = $location;
 

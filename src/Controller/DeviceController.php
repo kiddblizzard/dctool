@@ -38,7 +38,8 @@ class DeviceController extends Controller
 
         return $this->render('device/list.html.twig', array(
             'devices' => $pagination,
-            'keyWord' => $keyWord
+            'keyWord' => $keyWord,
+            'navbar' => 'device'
         ));
     }
 
@@ -71,7 +72,8 @@ class DeviceController extends Controller
 
         return $this->render('device/new.html.twig', array(
             'manufacturers' => $manufacturers,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'navbar' => 'device'
         ));
     }
 
@@ -106,7 +108,8 @@ class DeviceController extends Controller
 
         return $this->render('device/new.html.twig', array(
             'manufacturers' => $manufacturers,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'navbar' => 'device'
         ));
     }
 

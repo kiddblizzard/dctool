@@ -53,6 +53,14 @@ class Task
 
     /**
      * [private description]
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100)
+     */
+    private $type;
+
+    /**
+     * [private description]
      * @var boolean
      *
      * @ORM\Column(type="boolean")
@@ -131,5 +139,31 @@ class Task
         return $this;
     }
 
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
 
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function showHasCtAccess(): ?string
+    {
+        return $this->has_ct_access?"Yes":"No";
+    }
+
+    public function showTypeInText(): ?string
+    {
+        if ($this->type == 'device_roll_in') {
+            return 'Device Roll In';
+        } else if ($this->type == 'device_roll_out') {
+            return 'Device Roll Out';
+        } else {
+            return "";
+        }
+    }
 }
