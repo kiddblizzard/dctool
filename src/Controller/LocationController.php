@@ -9,17 +9,16 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use App\Entity\Part;
+use App\Entity\Location;
 use App\Entity\Model;
 use App\Entity\Manufacturer;
-use App\Entity\Location;
 
 
-class PartController extends Controller
+class LocationController extends Controller
 {
     /**
      * show the list of devices
-     * @Route("/parts", name="parts")
+     * @Route("/locations", name="locations")
      * @param  Request $request [description]
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -38,29 +37,25 @@ class PartController extends Controller
             10
         );
 
-        return $this->render('part/list.html.twig', array(
+        return $this->render('location/list.html.twig', array(
             'parts' => $pagination,
             'keyWord' => $keyWord,
-            'navbar' => 'parts'
+            'navbar' => 'location'
         ));
     }
 
     /**
-     * @Route("/parts/new", name="new_part")
+     * @Route("/locations/new", name="new_location")
      * @param  Request $request [description]
      * @return [type] [description]
      */
     public function newAction(Request $request)
     {
-        $part = new Part();
+        $location = new Location();
 
-        $manufacturers = $this->getDoctrine()
-        ->getRepository(Manufacturer::class)
-        ->findAll();
-
-        $form = $this->getPartForm(
-            $part,
-            $this->generateUrl('new_part')
+        $form = $this->getLocationForm(
+            $location,
+            $this->generateUrl('new_location')
         );
 
         $form->handleRequest($request);
@@ -69,29 +64,28 @@ class PartController extends Controller
             $part = $form->getData();
             $this->savePart($part);
 
-            return $this->redirectToRoute('parts');
+            return $this->redirectToRoute('locations');
         }
 
-        return $this->render('part/new.html.twig', array(
-            'manufacturers' => $manufacturers,
+        return $this->render('location/new.html.twig', array(
             'form' => $form->createView(),
-            'navbar' => 'parts'
+            'navbar' => 'location'
         ));
     }
 
     /**
-     * @Route("/parts/{part}/eidt", name="edit_part")
-     * @param  Part $part
+     * @Route("/locations/{location}/eidt", name="edit_location")
+     * @param  Location $location
      * @param  Request $request [description]
      * @return [type] [description]
      */
-    public function editAction(Part $part, Request $request)
+    public function editAction(Location $location, Request $request)
     {
         $form = $this->getPartForm(
             $part,
             $this->generateUrl(
-                'edit_part',
-                ['part' => $part->getId()]
+                'edit_location',
+                ['location' => $location->getId()]
             )
         );
 
@@ -101,10 +95,10 @@ class PartController extends Controller
             $item = $form->getData();
             $this->savePart($item);
 
-            return $this->redirectToRoute('parts');
+            return $this->redirectToRoute('locations');
         }
 
-        return $this->render('part/new.html.twig', array(
+        return $this->render('location/new.html.twig', array(
             'form' => $form->createView(),
             'navbar' => 'parts'
         ));
@@ -112,27 +106,16 @@ class PartController extends Controller
 
     /**
      * [getPartForm description]
-     * @param  Part   $part [description]
+     * @param  Location   $location [description]
      * @param  String $path [description]
      * @return [type]       [description]
      */
-    private function getPartForm(Part $part, $path)
+    private function getLocationForm(Location $location, $path)
     {
-        return $this->createFormBuilder($part)
+        return $this->createFormBuilder($location)
             ->setAction($path)
             ->setMethod('POST')
-            ->add('model', EntityType::class, [
-                'class' => Model::class,
-                'choice_label' => 'model',
-                'group_by' => 'manufacturer'
-            ])
-            ->add('amount', TextType::class, ['required' => false])
-
-
-            ->add('location', EntityType::class, [
-                'class' => Location::class,
-                'choice_label' => 'Location'
-            ])
+            ->add('location', TextType::class, ['required' => false])
             ->add('save', SubmitType::class, array('label' => 'Submit'))
             ->getForm();
     }
@@ -149,6 +132,6 @@ class PartController extends Controller
      * @return [type] [description]
      */
     private function getRepository() {
-        return $this->getDoctrine()->getRepository(Part::class);
+        return $this->getDoctrine()->getRepository(Location::class);
     }
 }

@@ -24,8 +24,9 @@
             <thead>
                 <tr>
                     <th>Due Date</th>
+                    <th>Type</th>
                     <th>Description</th>
-                    <th>Delivery</th>
+                    <th>Delivery Info</th>
                     <th>CT Access</th>
                     <th>Status</th>
                 </tr>
@@ -33,7 +34,7 @@
             <tbody>
                 {% for task in pagination %}
                 <tr>
-                    <td class="">
+                    <td>
                         <a href="
                             {{ path(
                                 'edit_task',
@@ -43,9 +44,12 @@
                             {{ task.getDueDate() | date("m/d/y ") }}
                         </a>
                     </td>
+                    <td>
+                        {{ task.showTypeInText() }}
+                    </td>
                     <td> {{ task.getContent() }} </td>
                     <td> {{ task.getDelivery() }} </td>
-                    <td> {{ task.getHasCtAccess() }} </td>
+                    <td> {{ task.showHasCtAccess() }} </td>
                     <td> {{ task.getStatus() }} </td>
                 </tr>
                 {% endfor %}

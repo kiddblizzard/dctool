@@ -10,6 +10,11 @@
             {{ form_widget(form.due_date) }}
         </div>
         <div class="form-group">
+            {{ form_label(form.type) }}
+            {{ form_errors(form.type) }}
+            {{ form_widget(form.type) }}
+        </div>
+        <div class="form-group">
             {{ form_label(form.content) }}
             {{ form_errors(form.content) }}
             {{ form_widget(form.content, {'attr': {class: 'form-control'} }) }}

@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Task;
 
 
-class taskController extends Controller
+class TaskController extends Controller
 {
     /**
      * [index description]
@@ -35,12 +35,13 @@ class taskController extends Controller
         $pagination = $paginator->paginate(
             $query,
             $pageNumber,
-            5
+            10
         );
 
         return $this->render('task/index.html.twig', array(
             'pagination' => $pagination,
             'keyWord' => $keyWord,
+            'navbar' => 'task'
         ));
     }
 
@@ -65,7 +66,8 @@ class taskController extends Controller
         }
 
         return $this->render('task/new.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'navbar' => 'task'
         ));
     }
 
@@ -95,7 +97,8 @@ class taskController extends Controller
         }
 
         return $this->render('task/new.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'navbar' => 'task'
         ));
     }
 
@@ -110,6 +113,12 @@ class taskController extends Controller
         return $this->createFormBuilder($task)
             ->setAction($path)
             ->setMethod('POST')
+            ->add('type', ChoiceType::class, [
+                'choices'  => [
+                    'Device Roll In' => 'device_roll_in',
+                    'Device Roll Out' => 'device_roll_out',
+                ],
+            ])
             ->add('content', TextType::class)
             ->add('delivery', TextType::class, ['required' => false])
             ->add('due_date', DateType::class)
