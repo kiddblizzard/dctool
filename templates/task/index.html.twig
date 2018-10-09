@@ -33,7 +33,13 @@
             </thead>
             <tbody>
                 {% for task in pagination %}
-                <tr>
+                <tr class="
+                    {% if task.getType() == "device_roll_in" %}
+                    table-danger
+                    {% elseif task.getType() == "device_roll_out" %}
+                    table-info
+                    {% endif %}
+                ">
                     <td>
                         <a href="
                             {{ path(
