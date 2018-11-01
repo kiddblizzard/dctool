@@ -8,5 +8,8 @@
     "popper.js": "^1.14.4",
     "sass-loader": "^7.1.0",
     "webpack-notifier": "^1.5.0"
+  },
+  "dependencies": {
+    "js-xlsx": "^0.8.22"
   }
 }
