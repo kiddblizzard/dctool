@@ -56,7 +56,7 @@ class TaskRepository extends ServiceEntityRepository
             $query->where($query->expr()->like('t.content', '?1'))
                 ->setParameter('1', '%'.$keyWord.'%');
         }
-        $query->orderBy('t.due_date', 'DESC');
+        $query->orderBy('t.due_date', 'ASC');
 
         return $query->getQuery();
     }
