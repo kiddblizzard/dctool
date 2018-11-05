@@ -20,53 +20,102 @@
                 </button>
             </form>
             <a
-                class="btn btn-primary"
+                class="btn btn-primary float-md-right float-sm-left"
                 href="{{ path('new_device') }}"
             >
                 New Device
             </a>
-
-            <a
-                class="btn btn-primary"
-                href="{{ path('new_device') }}"
+            <button
+                type="button"
+                class="btn btn-primary float-md-right float-sm-left"
+                data-toggle="modal"
+                data-target="#exampleModalCenter"
             >
                 Upload Excel
-            </a>
+            </button>
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>SN</th>
-                    <th>Barcode</th>
-                    <th>Rack</th>
-                    <th>Band</th>
-                    <th>Model</th>
-                    <th>PO</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in devices %}
-                <tr>
-                    <td>
-                        <a href="
-                            {{ path(
-                                'edit_device',
-                                {'device':item.getId()}
-                            ) }}
-                        ">
-                            {{ item.getName() }}
-                        </a>
-                    </td>
-                    <td> {{ item.getSerialNumber() }} </td>
-                    <td> {{ item.getBarcodeNumber() }} </td>
-                    <td> {{ item.getRack() }}</td>
-                    <td> {{ item.getModel().getManufacturer() }} </td>
-                    <td> {{ item.getModel().getModel() }} </td>
-                    <td> {{ item.getPo() }} </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+        <div
+            class="modal fade"
+            id="exampleModalCenter"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    {{ form_start(form) }}
+                    <div class="modal-header">
+                        <h5
+                            class="modal-title"
+                            id="exampleModalCenterTitle"
+                        >
+                            Upload Excel
+                        </h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_widget(form.attachment) }}
+                        <!-- <input type="file" name="device_excel" /> -->
+                    </div>
+                    <div class="modal-footer">
+                        {{ form_widget(form.save, {'attr':{class:'btn btn-primary'}}) }}
+                        <!-- <button
+                            type="submit"
+                            class="btn btn-primary"
+                            id="devices_upload_btn"
+                        >
+                            Upload
+                        </button> -->
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive-md">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>SN</th>
+                        <th>Barcode</th>
+                        <th>Rack</th>
+                        <th>Band</th>
+                        <th>Model</th>
+                        <th>PO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in devices %}
+                    <tr>
+                        <td>
+                            <a href="
+                                {{ path(
+                                    'edit_device',
+                                    {'device':item.getId()}
+                                ) }}
+                            ">
+                                {{ item.getName() }}
+                            </a>
+                        </td>
+                        <td> {{ item.getSerialNumber() }} </td>
+                        <td> {{ item.getBarcodeNumber() }} </td>
+                        <td> {{ item.getRack() }}</td>
+                        <td> {{ item.getModel().getManufacturer() }} </td>
+                        <td> {{ item.getModel().getModel() }} </td>
+                        <td> {{ item.getPo() }} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}

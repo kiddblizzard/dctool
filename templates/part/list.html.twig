@@ -26,35 +26,37 @@
                 New Part
             </a>
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Band</th>
-                    <th>Model</th>
-                    <th>Quantity</th>
-                    <th>Location</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in parts %}
-                <tr>
-                    <td class=""> {{ item.getModel().getManufacturer() }} </td>
-                    <td>
-                        <a href="
-                            {{ path(
-                                'edit_part',
-                                {'part':item.getId()}
-                            ) }}
-                        ">
-                            {{ item.getModel().getModel() }}
-                        </a>
-                    </td>
-                    <td> {{ item.getAmount() }} </td>
-                    <td> {{ item.getLocation() }} </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive-md">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Band</th>
+                        <th>Model</th>
+                        <th>Quantity</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in parts %}
+                    <tr>
+                        <td class=""> {{ item.getModel().getManufacturer() }} </td>
+                        <td>
+                            <a href="
+                                {{ path(
+                                    'edit_part',
+                                    {'part':item.getId()}
+                                ) }}
+                            ">
+                                {{ item.getModel().getModel() }}
+                            </a>
+                        </td>
+                        <td> {{ item.getAmount() }} </td>
+                        <td> {{ item.getLocation() }} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        <div>
     </div>
 
 {% endblock %}

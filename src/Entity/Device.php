@@ -85,6 +85,14 @@ class Device
     /**
      * @var string
      *
+     * @ORM\Column(type="text", length=10, nullable=true)
+     *
+     */
+    private $unit;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="text", length=100, nullable=true)
      *
      */
@@ -686,6 +694,18 @@ class Device
     public function setPo(?string $po): self
     {
         $this->po = $po;
+
+        return $this;
+    }
+
+    public function getUnit(): ?string
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(?string $unit): self
+    {
+        $this->unit = $unit;
 
         return $this;
     }

@@ -14,53 +14,56 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             <a
-                class="btn btn-primary"
+                class="btn btn-primary float-md-right float-sm-left"
                 href="{{ path('new_task') }}"
             >
                 New Task
             </a>
+
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Due Date</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Delivery Info</th>
-                    <th>CT Access</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in pagination %}
-                <tr class="
-                    {% if task.getType() == "device_roll_in" %}
-                    table-danger
-                    {% elseif task.getType() == "device_roll_out" %}
-                    table-info
-                    {% endif %}
-                ">
-                    <td>
-                        <a href="
-                            {{ path(
-                                'edit_task',
-                                {'task':task.getId()}
-                            ) }}
-                        ">
-                            {{ task.getDueDate() | date("m/d/y ") }}
-                        </a>
-                    </td>
-                    <td>
-                        {{ task.showTypeInText() }}
-                    </td>
-                    <td> {{ task.getContent() }} </td>
-                    <td> {{ task.getDelivery() }} </td>
-                    <td> {{ task.showHasCtAccess() }} </td>
-                    <td> {{ task.getStatus() }} </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive-md">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Due Date</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Delivery Info</th>
+                        <th>CT Access</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in pagination %}
+                    <tr class="
+                        {% if task.getType() == "device_roll_in" %}
+                        table-danger
+                        {% elseif task.getType() == "device_roll_out" %}
+                        table-info
+                        {% endif %}
+                    ">
+                        <td>
+                            <a href="
+                                {{ path(
+                                    'edit_task',
+                                    {'task':task.getId()}
+                                ) }}
+                            ">
+                                {{ task.getDueDate() | date("m/d/y ") }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ task.showTypeInText() }}
+                        </td>
+                        <td> {{ task.getContent() }} </td>
+                        <td> {{ task.getDelivery() }} </td>
+                        <td> {{ task.showHasCtAccess() }} </td>
+                        <td> {{ task.getStatus() }} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {# display navigation #}
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}

@@ -9,9 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use App\Entity\Device;
 use App\Entity\Model;
 use App\Entity\Manufacturer;
+use App\Service\FileUploader;
 
 class DeviceController extends Controller
 {
@@ -21,7 +25,7 @@ class DeviceController extends Controller
      * @param  Request $request [description]
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function list(Request $request)
+    public function listAction(Request $request)
     {
         $pageNumber = $request->query->get('page', 1);
         $keyWord = $request->query->get('keyWord', null);
@@ -36,10 +40,15 @@ class DeviceController extends Controller
             10
         );
 
+        $form = $this->getDeviceExcelForm(
+            $this->generateUrl('device_upload_excel')
+        );
+
         return $this->render('device/list.html.twig', array(
             'devices' => $pagination,
             'keyWord' => $keyWord,
-            'navbar' => 'device'
+            'navbar' => 'device',
+            'form' => $form->createView()
         ));
     }
 
@@ -111,6 +120,57 @@ class DeviceController extends Controller
             'form' => $form->createView(),
             'navbar' => 'device'
         ));
+    }
+
+    /**
+     * @Route("/devices/upload", name="device_upload_excel")
+     * @param  Request $request [description]
+     * @param  FileUploader $fileUploader
+     * @return [type] [description]
+     */
+    public function uploadExcelAction(Request $request, FileUploader $fileUploader)
+    {
+        $form = $this->getDeviceExcelForm(
+            $this->generateUrl('device_upload_excel')
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $file = $form['attachment']->getData();
+
+            $fileName = $fileUploader->upload($file);
+            $path = $fileUploader->getTargetDirectory().$fileName;
+
+            try {
+                /** Load $inputFileName to a Spreadsheet Object  **/
+                $reader = new Xlsx();
+                $reader->setReadDataOnly(true);
+                $spreadsheet = $reader->load($path);
+                $sheet = $spreadsheet->getSheet(0);
+                $totalRow = $sheet->getHighestRow();
+
+                for ($i = 2; $i <= $totalRow; $i++) {
+                
+
+                }
+            } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+                die('Error loading file: '.$e->getMessage());
+            }
+        }
+        exit;
+    }
+
+
+
+    private function getDeviceExcelForm($path)
+    {
+        return $this->createFormBuilder()
+            ->setAction($path)
+            ->setMethod('POST')
+            ->add('attachment', FileType::class)
+            ->add('save', SubmitType::class, array('label' => 'Upload'))
+            ->getForm();
     }
 
     /**
