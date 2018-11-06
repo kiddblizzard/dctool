@@ -264,7 +264,7 @@ class Device
      * @ORM\Column(type="text", length=100, nullable=true)
      *
      */
-    private $application_avail_mntrng_tier  ;
+    private $application_avail_mntrng_tier;
 
     /**
      * @var string
@@ -272,7 +272,15 @@ class Device
      * @ORM\Column(type="text", length=100, nullable=true)
      *
      */
-    private $po  ;
+    private $po;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", length=20, nullable=true)
+     *
+     */
+    private $status;
 
     /**
      * @return mixed
@@ -706,6 +714,18 @@ class Device
     public function setUnit(?string $unit): self
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
