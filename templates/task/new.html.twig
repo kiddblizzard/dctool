@@ -30,8 +30,15 @@
             {{ form_widget(form.has_ct_access, {'attr': {class: 'form-control'} }) }}
         </div>
 
+        <a
+            class="btn btn-warning"
+            href="{{ path('tasks') }}"
+        >
+            Cancel
+        </a>
+
         {{ form_widget(form.status) }}
-        {{ form_widget(form.save, {'attr':{class:'btn btn-primary'}}) }}
+        {{ form_widget(form.save, {'attr':{class:'btn btn-primary float-right'}}) }}
         {{ form_end(form) }}
     </form>
     </div>

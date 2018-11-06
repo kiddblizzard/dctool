@@ -19,7 +19,15 @@
                 {{ form_errors(form.location) }}
                 {{ form_widget(form.location, {'attr': {class: 'form-control'} }) }}
             </div>
-            {{ form_widget(form.save, {'attr':{class:'btn btn-primary'}}) }}
+
+            <a
+                class="btn btn-warning"
+                href="{{ path('parts') }}"
+            >
+                Cancel
+            </a>
+
+            {{ form_widget(form.save, {'attr':{class:'btn btn-primary float-right'}}) }}
             {{ form_end(form) }}
         </form>
     </div>

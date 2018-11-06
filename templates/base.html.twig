@@ -11,6 +11,9 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+        {% block footer %}
+            <div class="footer"></div>
+        {% endblock %}
         {% block javascripts %}
             <script src="{{ asset('build/app.js') }}"></script>
             <script src="{{ asset('build/main.js') }}"></script>

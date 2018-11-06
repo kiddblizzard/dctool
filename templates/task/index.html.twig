@@ -3,7 +3,7 @@
     {% include "nav/nav.twig" %}
     <div class="container-fluid">
         <div>
-            <form method="GET" class="form-inline my-2 my-lg-0">
+            <form method="GET" class="form-inline my-2 my-lg-0 d-block">
                 <input
                     name="keyWord"
                     class="form-control mr-sm-2"
@@ -11,14 +11,21 @@
                     aria-label="Search"
                     value="{{ keyWord }}"
                 >
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button
+                    class="btn btn-outline-success my-2 my-sm-0"
+                    type="submit"
+                >
+                    Search
+                </button>
+                
+                <a
+                    class="btn btn-primary float-md-right float-sm-left"
+                    href="{{ path('new_task') }}"
+                >
+                    New Task
+                </a>
             </form>
-            <a
-                class="btn btn-primary float-md-right float-sm-left"
-                href="{{ path('new_task') }}"
-            >
-                New Task
-            </a>
+
 
         </div>
         <div class="table-responsive-md">

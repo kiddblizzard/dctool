@@ -3,3 +3,13 @@
 //
 // @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import '~bootstrap/scss/bootstrap.scss';
+
+.footer {
+    margin-bottom: 50px;
+}
+
+@media (min-width: 768px) {
+    .search-bar {
+        width: 50% !important;
+    }
+}

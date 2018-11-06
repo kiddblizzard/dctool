@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use App\Entity\Device;
@@ -151,7 +152,7 @@ class DeviceController extends Controller
                 $totalRow = $sheet->getHighestRow();
 
                 for ($i = 2; $i <= $totalRow; $i++) {
-                
+
 
                 }
             } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
@@ -194,6 +195,14 @@ class DeviceController extends Controller
             ->add('barcode_number', TextType::class, ['required' => false])
             ->add('po', TextType::class, ['required' => false])
             ->add('rack', TextType::class, ['required' => false])
+            ->add('unit', TextType::class, ['required' => false])
+            ->add('status', ChoiceType::class, [
+                'choices'  => [
+                    'In Depository' => 'in_depository',
+                    'Running' => 'running',
+                    'Decommission' => 'decommission'
+                ],
+            ])
             ->add('save', SubmitType::class, array('label' => 'Submit'))
             ->getForm();
     }
