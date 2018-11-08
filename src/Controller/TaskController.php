@@ -117,6 +117,8 @@ class TaskController extends Controller
                 'choices'  => [
                     'Device Roll In' => 'device_roll_in',
                     'Device Roll Out' => 'device_roll_out',
+                    'Spare Roll In' => 'spare_roll_in',
+                    'Spare Roll Out' => 'spare_roll_out',
                 ],
             ])
             ->add('content', TextType::class)

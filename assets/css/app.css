@@ -6,8 +6,12 @@ body {
     margin-bottom: 50px;
 }
 
+.navbar {
+    margin-bottom: 10px;
+}
+
 @media (min-width: 768px) {
     .search-bar {
-        width: 50% !important;
+        width: 50%;
     }
 }
