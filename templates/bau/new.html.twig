@@ -1,0 +1,62 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+    {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.chg_number) }}
+            {{ form_errors(form.chg_number) }}
+            {{ form_widget(form.chg_number) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.type) }}
+            {{ form_errors(form.type) }}
+            {{ form_widget(form.type) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.start_time) }}
+            {{ form_errors(form.start_time) }}
+            {{ form_widget(form.start_time) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.end_time) }}
+            {{ form_errors(form.end_time) }}
+            {{ form_widget(form.end_time) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.description) }}
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description, {'attr': {class: 'form-control'} }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.vendor) }}
+            {{ form_errors(form.vendor) }}
+            {{ form_widget(form.vendor, {'attr': {class: 'form-control'} }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.remark) }}
+            {{ form_errors(form.remark) }}
+            {{ form_widget(form.remark, {'attr': {class: 'form-control'} }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.status) }}
+            {{ form_errors(form.status) }}
+            {{ form_widget(form.status, {'attr': {class: 'form-control'} }) }}
+        </div>
+        <div class="form-group">
+            <a
+                class="btn btn-warning"
+                href="{{ path('bau') }}"
+            >
+                Cancel
+            </a>
+
+            {{ form_widget(form.status) }}
+            {{ form_widget(form.save, {'attr':{class:'btn btn-primary float-right'}}) }}
+        </div>
+
+
+    {{ form_end(form) }}
+
+    </div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm">
+                <form method="GET" class="form-inline my-2 my-lg-0 d-block search-bar">
+                    <div class="input-group mb-3 ">
+                        <input
+                            type="search"
+                            class="form-control"
+                            placeholder="Key Word"
+                            aria-label="Key Word"
+                            name="keyWord"
+                            value="{{ keyWord }}"
+                        >
+                        <div class="input-group-append">
+                            <button
+                                class="btn btn-outline-secondary"
+                                type="submit"
+                            >
+                                Search
+                            </button>
+                        </div>
+                        <div class="input-group-append">
+                            <a
+                                class="btn btn-outline-secondary"
+                                href="{{ path('bau') }}"
+                            >
+                                Clear
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm mb-3">
+                <a
+                    class="btn btn-primary float-md-right float-sm-left"
+                    href="{{ path('new_bau') }}"
+                >
+                    New BAU
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive-md">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Time</th>
+                        <th>CHG/INC</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Vendor</th>
+                        <th>Remark</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bau in pagination %}
+                    <tr class="
+                        {% if bau.getSite() == 1 %}
+                        table-danger
+                        {% elseif bau.getSite() == 2 %}
+                        table-info
+                        {% endif %}
+                    ">
+                        <td>
+                            <a href="
+                                {{ path(
+                                    'edit_bau',
+                                    {'bau':bau.getId()}
+                                ) }}
+                            ">
+                                {{ bau.getStratTime() | date("y/m/d H:i:s") }}
+                                --
+                                {{ bau.getEndTime() | date("y/m/d H:i:s") }}
+                            </a>
+                        </td>
+                        <td> {{ bau.getChgNumber() }} </td>
+                        <td>
+                            {{ bau.getType() }}
+                        </td>
+                        <td> {{ bau.getStatus() }} </td>
+                        <td> {{ bau.getDoctrine() }} </td>
+                        <td> {{ bau.getVendor() }} </td>
+                        <td> {{ bau.getRemark() }} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {# display navigation #}
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}
