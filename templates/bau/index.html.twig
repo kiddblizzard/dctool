@@ -66,23 +66,25 @@
                         {% endif %}
                     ">
                         <td>
+                            From: {{ bau.getStartTime() | date("y/m/d H:i:s") }}
+                            <br />
+                            To: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ bau.getEndTime() | date("y/m/d H:i:s") }}
+                        </td>
+                        <td>
                             <a href="
                                 {{ path(
                                     'edit_bau',
                                     {'bau':bau.getId()}
                                 ) }}
                             ">
-                                {{ bau.getStratTime() | date("y/m/d H:i:s") }}
-                                --
-                                {{ bau.getEndTime() | date("y/m/d H:i:s") }}
-                            </a>
+                            {{ bau.getChgNumber() }}
+                        </a>
                         </td>
-                        <td> {{ bau.getChgNumber() }} </td>
                         <td>
                             {{ bau.getType() }}
                         </td>
                         <td> {{ bau.getStatus() }} </td>
-                        <td> {{ bau.getDoctrine() }} </td>
+                        <td> {{ bau.getDescription() }} </td>
                         <td> {{ bau.getVendor() }} </td>
                         <td> {{ bau.getRemark() }} </td>
                     </tr>

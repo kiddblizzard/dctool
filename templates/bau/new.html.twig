@@ -39,6 +39,16 @@
             {{ form_widget(form.remark, {'attr': {class: 'form-control'} }) }}
         </div>
         <div class="form-group">
+            {{ form_label(form.cmp) }}
+            {{ form_errors(form.cmp) }}
+            {{ form_widget(form.cmp, {'attr': {class: 'form-control'} }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.site) }}
+            {{ form_errors(form.site) }}
+            {{ form_widget(form.site, {'attr': {class: 'form-control'} }) }}
+        </div>
+        <div class="form-group">
             {{ form_label(form.status) }}
             {{ form_errors(form.status) }}
             {{ form_widget(form.status, {'attr': {class: 'form-control'} }) }}
@@ -51,7 +61,6 @@
                 Cancel
             </a>
 
-            {{ form_widget(form.status) }}
             {{ form_widget(form.save, {'attr':{class:'btn btn-primary float-right'}}) }}
         </div>
 
