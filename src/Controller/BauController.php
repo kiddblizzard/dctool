@@ -60,8 +60,8 @@ class BauController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $bau = $form->getData();
             $bau->setStatus('new');
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
+            // ... perform some action, such as saving the bau to the database
+            // for example, if bau is a Doctrine entity, save it!
             $this->saveBau($bau);
             return $this->redirectToRoute('bau');
         }
@@ -80,7 +80,7 @@ class BauController extends Controller
      */
     public function editAction(Bau $bau, Request $request)
     {
-        $form = $this->getTaskForm(
+        $form = $this->getBauForm(
             $bau,
             $this->generateUrl(
                 'edit_bau',
@@ -94,10 +94,10 @@ class BauController extends Controller
             $item = $form->getData();
             $this->saveBau($item);
 
-            return $this->redirectToRoute('tasks');
+            return $this->redirectToRoute('bau');
         }
 
-        return $this->render('task/new.html.twig', array(
+        return $this->render('bau/new.html.twig', array(
             'form' => $form->createView(),
             'navbar' => 'bau'
         ));
@@ -132,15 +132,27 @@ class BauController extends Controller
             ->add('end_time', DateTimeType::class)
             ->add('vendor', TextType::class)
             ->add('remark', TextareaType::class)
+            ->add('cmp', ChoiceType::class, [
+                'choices'  => [
+                    'Yes' => true,
+                    'No' => false,
+                ],
+            ])
             ->add('status', TextType::class)
+            ->add('site', TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Submit'))
             ->getForm();
     }
 
-    private function saveTask($task)
+    /**
+     * [saveBau description]
+     * @param  Bau $bau [description]
+     * @return [type]      [description]
+     */
+    private function saveBau($bau)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($task);
+        $entityManager->persist($bau);
         $entityManager->flush();
     }
 
