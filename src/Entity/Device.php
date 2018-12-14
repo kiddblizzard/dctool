@@ -85,7 +85,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=10, nullable=true)
+     * @ORM\Column(type="string", length=10, nullable=true)
      *
      */
     private $unit;
@@ -93,7 +93,15 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=true)
+     *
+     */
+    private $rps;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $mount_type;
@@ -101,7 +109,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $backup_type;
@@ -109,7 +117,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $cluster;
@@ -117,7 +125,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $unique_id;
@@ -125,7 +133,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $parent_unique_id;
@@ -133,7 +141,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $system_type;
@@ -141,7 +149,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $machine_category;
@@ -149,7 +157,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $machine_type;
@@ -157,7 +165,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $platform;
@@ -165,7 +173,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $c_business_sector;
@@ -173,7 +181,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $business_area;
@@ -181,7 +189,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $c_system_alias_name;
@@ -189,7 +197,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $vob_id;
@@ -197,7 +205,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $tcr_scap_id;
@@ -205,7 +213,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $storage_type;
@@ -213,7 +221,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $database_type;
@@ -229,7 +237,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $terminal_server;
@@ -237,7 +245,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $device_avail_mntrng;
@@ -245,7 +253,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $device_avail_mntrng_tier;
@@ -253,7 +261,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $application_avail_mntrng;
@@ -261,7 +269,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $application_avail_mntrng_tier;
@@ -269,7 +277,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=100, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      *
      */
     private $po;
@@ -277,7 +285,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=20, nullable=true)
+     * @ORM\Column(type="string", length=20, nullable=true)
      *
      */
     private $status;
@@ -726,6 +734,18 @@ class Device
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getRps(): ?string
+    {
+        return $this->rps;
+    }
+
+    public function setRps(?string $rps): self
+    {
+        $this->rps = $rps;
 
         return $this;
     }

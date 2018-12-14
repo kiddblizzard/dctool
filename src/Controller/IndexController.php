@@ -23,7 +23,7 @@ class IndexController extends Controller
         $task = New Task();
 
         return $this->render('index/index.html.twig', array(
-            'tasks' => $task->findAll()
+            'tasks' => []
         ));
     }
 

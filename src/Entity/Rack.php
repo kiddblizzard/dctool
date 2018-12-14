@@ -27,7 +27,7 @@ class Rack
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=10)
+     * @ORM\Column(type="text", length=10, nullable=true)
      *
      */
     private $longitude;
@@ -35,10 +35,18 @@ class Rack
     /**
      * @var string
      *
-     * @ORM\Column(type="text", length=10)
+     * @ORM\Column(type="text", length=10, nullable=true)
      *
      */
     private $latitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=20, nullable=true)
+     *
+     */
+    private $rack_row;
 
     /**
      * @return mixed
@@ -94,5 +102,17 @@ class Rack
     public function setLatitude($latitude)
     {
         $this->latitude = $latitude;
+    }
+
+    public function getRackRow(): ?string
+    {
+        return $this->rack_row;
+    }
+
+    public function setRackRow(?string $rack_row): self
+    {
+        $this->rack_row = $rack_row;
+
+        return $this;
     }
 }

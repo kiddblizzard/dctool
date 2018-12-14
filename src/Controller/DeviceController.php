@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use App\Entity\Rack;
 use App\Entity\Device;
 use App\Entity\Model;
 use App\Entity\Manufacturer;
@@ -75,7 +76,7 @@ class DeviceController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $device = $form->getData();
-            $this->saveDevice($device);
+            $this->saveEntity($device);
 
             return $this->redirectToRoute('devices');
         }
@@ -111,7 +112,7 @@ class DeviceController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $device = $form->getData();
-            $this->saveDevice($device);
+            $this->saveEntity($device);
 
             return $this->redirectToRoute('devices');
         }
@@ -153,7 +154,68 @@ class DeviceController extends Controller
 
                 for ($i = 2; $i <= $totalRow; $i++) {
 
+                    $rackRow = $sheet->getCell('A'.$i);
+                    $rackName = $sheet->getCell('B'.$i);
+                    $systemName = $sheet->getCell('C'.$i);
+                    $powerSource = $sheet->getCell('D'.$i);
+                    $unit = $sheet->getCell('E'.$i);
+                    $manufacturer = $sheet->getCell('F'.$i);
+                    $model = $sheet->getCell('G'.$i);
+                    $platform = $sheet->getCell('H'.$i);
+                    $sn = $sheet->getCell('I'.$i);
+                    $name = $sheet->getCell('J'.$i);
+                    $rps = $sheet->getCell('L'.$i);
+                    $barcode = $sheet->getCell('M'.$i);
 
+                    $rackEntity = $this->getRackRepository()
+                        ->findOneByName($rackName);
+
+                    if (is_null($rackEntity)) {
+                        $rackEntity = New Rack();
+                        $rackEntity->setName($rackName);
+                        $rackEntity->setRackRow($rackRow);
+                        $this->saveEntity($rackEntity);
+                    }
+
+                    $manufacturerEntity = $this->getManuRepository()
+                        ->findOneByName($manufacturer);
+
+                    if (is_null($manufacturerEntity)) {
+                        $manufacturerEntity = New Manufacturer();
+                        $manufacturerEntity->setName($manufacturer);
+                        $this->saveEntity($manufacturerEntity);
+                    }
+
+                    $modelEntity = $this->getModelRepository()
+                        ->getOneByMM(
+                            $manufacturerEntity,
+                            $model
+                        );
+
+                    if (is_null($modelEntity)) {
+
+                        if($platform == 'Network') {
+                            $modelType == 'switch';
+                        }
+
+                        $modelEntity = New Model();
+                        $modelEntity->setManufacturer($manufacturerEntity);
+                        $modelEntity->setType();
+                        $modelEntity->setModel($model);
+                        $this->saveEntity($modelEntity);
+                    }
+
+                    var_dump($modelEntity);
+
+                    $device = New Device();
+                    $device->setRack($rackEntity);
+                    $device->setName($name);
+                    $device->setUnit($unit);
+                    $device->setModel($modelEntity);
+                    $device->setSerialNumber($sn);
+                    $device->setBarcodeNumber($barcode);
+
+                    $this->saveEntity($device);
                 }
             } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
                 die('Error loading file: '.$e->getMessage());
@@ -161,8 +223,6 @@ class DeviceController extends Controller
         }
         exit;
     }
-
-
 
     private function getDeviceExcelForm($path)
     {
@@ -207,10 +267,10 @@ class DeviceController extends Controller
             ->getForm();
     }
 
-    private function saveDevice($device)
+    private function saveEntity($entity)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($device);
+        $entityManager->persist($entity);
         $entityManager->flush();
     }
 
@@ -220,5 +280,25 @@ class DeviceController extends Controller
      */
     private function getRepository() {
         return $this->getDoctrine()->getRepository(Device::class);
+    }
+
+    /**
+     * [getRepository description]
+     * @return [type] [description]
+     */
+    private function getRackRepository() {
+        return $this->getDoctrine()->getRepository(Rack::class);
+    }
+
+    private function getManuRepository() {
+        return $this->getDoctrine()->getRepository(Manufacturer::class);
+    }
+
+    /**
+     * [getRepository description]
+     * @return [type] [description]
+     */
+    private function getModelRepository() {
+        return $this->getDoctrine()->getRepository(Model::class);
     }
 }
