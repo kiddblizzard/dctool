@@ -34,6 +34,19 @@ class ModelRepository extends ServiceEntityRepository
            ->orderBy('m.id', 'ASC')
            ->getQuery();
 
-       return $a->getResult();
+       return $a->getOneOrNullResult();
+   }
+
+   public function getOneByMM($manufacturer, $model)
+   {
+       $a = $this->createQueryBuilder('m')
+           ->where('m.manufacturer = :manufacturer')
+           ->andWhere('m.model = :model')
+           ->setParameter('manufacturer', $manufacturer)
+           ->setParameter('model', $model)
+           ->orderBy('m.id', 'ASC')
+           ->getQuery();
+
+       return $a->getOneOrNullResult();
    }
 }
