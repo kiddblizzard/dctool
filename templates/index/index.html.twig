@@ -1,19 +1,52 @@
 {% extends "base.html.twig" %}
 {% block body %}
+    {% include "nav/nav.twig" %}
     <div class="container-fluid">
-    <form>
-        {{ form_start(form) }}
-        <div class="form-group">
-            {{ form_label(form.content) }}
-            {{ form_errors(form.content) }}
-            {{ form_widget(form.content, {'attr': {class: 'form-control'} }) }}
-        </div>
-        <div class="form-group">
-            {{ form_label(form.date) }}
-            {{ form_errors(form.date) }}
-            {{ form_widget(form.date) }}
-        </div>
-        {{ form_widget(form.save, {'attr':{class:'btn btn-primary'}}) }}
-        {{ form_end(form) }}
-    </form>
+        {% if tasks|length > 0 %}
+            Transportation
+            <div class="table-responsive-md">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Due Date</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Delivery Info</th>
+                            <th>CT Access</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr class="
+                            {% if task.getType() == "device_roll_in" %}
+                            table-danger
+                            {% elseif task.getType() == "device_roll_out" %}
+                            table-info
+                            {% endif %}
+                        ">
+                            <td>
+                                <a href="
+                                    {{ path(
+                                        'edit_task',
+                                        {'task':task.getId()}
+                                    ) }}
+                                ">
+                                    {{ task.getDueDate() | date("m/d/y ") }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ task.showTypeInText() }}
+                            </td>
+                            <td> {{ task.getContent() }} </td>
+                            <td> {{ task.getDelivery() }} </td>
+                            <td> {{ task.showHasCtAccess() }} </td>
+                            <td> {{ task.getStatus() }} </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

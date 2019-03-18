@@ -22,8 +22,12 @@ class IndexController extends Controller
     {
         $task = New Task();
 
+        $tasks = $this->getTaskRepository()->findByStatus('new');
+        var_dump($tasks);
+
         return $this->render('index/index.html.twig', array(
-            'tasks' => []
+            'tasks' => $tasks,
+            'navbar' => 'home'
         ));
     }
 
@@ -57,5 +61,13 @@ class IndexController extends Controller
         return $this->render('index/index.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * [getRepository description]
+     * @return [type] [description]
+     */
+    private function getTaskRepository () {
+        return $this->getDoctrine()->getRepository(Task::class);
     }
 }
