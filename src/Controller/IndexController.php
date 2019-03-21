@@ -15,7 +15,7 @@ class IndexController extends Controller
 {
     /**
      * [index description]
-     * @Route("/index")
+     * @Route("/index", name="dashboard")
      * @return [type] [description]
      */
     public function index()

@@ -23,7 +23,9 @@
         "symfony/orm-pack": "*",
         "symfony/process": "^4.1",
         "symfony/requirements-checker": "^1.1",
+        "symfony/security": "^4.1",
         "symfony/security-bundle": "^4.1",
+        "symfony/security-csrf": "^4.1",
         "symfony/serializer-pack": "*",
         "symfony/swiftmailer-bundle": "^3.1",
         "symfony/translation": "^4.1",
@@ -37,7 +39,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
-        "sensiolabs/security-checker": "^4.1",
+        "sensiolabs/security-checker": "^5.0",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
