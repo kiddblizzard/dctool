@@ -1,0 +1,52 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+        {% if tasks|length > 0 %}
+            Transportation
+            <div class="table-responsive-md">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Due Date</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Delivery Info</th>
+                            <th>CT Access</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr class="
+                            {% if task.getType() == "device_roll_in" %}
+                            table-danger
+                            {% elseif task.getType() == "device_roll_out" %}
+                            table-info
+                            {% endif %}
+                        ">
+                            <td>
+                                <a href="
+                                    {{ path(
+                                        'edit_task',
+                                        {'task':task.getId()}
+                                    ) }}
+                                ">
+                                    {{ task.getDueDate() | date("m/d/y ") }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ task.showTypeInText() }}
+                            </td>
+                            <td> {{ task.getContent() }} </td>
+                            <td> {{ task.getDelivery() }} </td>
+                            <td> {{ task.showHasCtAccess() }} </td>
+                            <td> {{ task.getStatus() }} </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

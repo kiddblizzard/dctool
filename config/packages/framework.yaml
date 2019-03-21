@@ -11,6 +11,8 @@ framework:
 
     #esi: ~
     #fragments: ~
+    session: ~
+    csrf_protection: true
     php_errors:
         log: true
     templating:
