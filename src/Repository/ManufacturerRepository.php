@@ -47,4 +47,17 @@ class ManufacturerRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByKeyword($keyWord = null)
+    {
+        $query = $this->createQueryBuilder('m');
+
+        if (!is_null($keyWord) && !empty($keyWord)) {
+            $query->where($query->expr()->like('m.name', '?1'))
+                ->setParameter('1', '%'.$keyWord.'%');
+        }
+        $query->orderBy('m.id', 'DESC');
+
+        return $query->getQuery();
+    }
 }
