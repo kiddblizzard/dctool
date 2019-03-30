@@ -6,39 +6,37 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations\Delete;
+use FOS\RestBundle\Controller\Annotations\Get;
 use App\Entity\Device;
 use App\Entity\Model;
 use App\Entity\Manufacturer;
 use App\Controller\Traits\HasRepositories;
 
-class ApiController extends FOSRestController
+class AjaxController extends FOSRestController
 {
     use HasRepositories;
-    
+
     /**
      * show the list of devices
-     * @Route("/api/types/{type}/manufacturers")
+     * @Get("/ajax/manufacturer/{manufacturer}")
      * @View(serializerGroups={"Default"})
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getManufacturerByTypeAction($type)
+    public function deleteManufacturerAction(Manufacturer $manufacturer)
     {
-        $result = $this->getDoctrine()
-        ->getRepository(Model::class)
-        ->findManufacturerByType($type);
+        return $manufacturer->getModels();
+    }
 
-        $view = $this->view($result, 200)
-            ->setTemplate("api/api.twig")
-            ->setTemplateVar('manufacturers');
-
-        return $this->handleView($view);
+    private function getModelRepository()
+    {
+        return $this->getDoctrine()->getRepository(Model::class);
     }
 
 }

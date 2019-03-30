@@ -291,6 +291,30 @@ class Device
     private $status;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50, nullable=true)
+     *
+     */
+    private $support_chg;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50, nullable=true)
+     *
+     */
+    private $row_name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50, nullable=true)
+     *
+     */
+    private $power_source;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -746,6 +770,42 @@ class Device
     public function setRps(?string $rps): self
     {
         $this->rps = $rps;
+
+        return $this;
+    }
+
+    public function getSupportChg(): ?string
+    {
+        return $this->support_chg;
+    }
+
+    public function setSupportChg(?string $support_chg): self
+    {
+        $this->support_chg = $support_chg;
+
+        return $this;
+    }
+
+    public function getRowName(): ?string
+    {
+        return $this->row_name;
+    }
+
+    public function setRowName(?string $row_name): self
+    {
+        $this->row_name = $row_name;
+
+        return $this;
+    }
+
+    public function getPowerSource(): ?string
+    {
+        return $this->power_source;
+    }
+
+    public function setPowerSource(?string $power_source): self
+    {
+        $this->power_source = $power_source;
 
         return $this;
     }

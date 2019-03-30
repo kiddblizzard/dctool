@@ -9,10 +9,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Task;
-
+use App\Controller\Traits\HasRepositories;
 
 class IndexController extends Controller
 {
+    use HasRepositories;
+
     /**
      * [index description]
      * @Route("/index", name="dashboard")
@@ -20,10 +22,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $task = New Task();
-
         $tasks = $this->getTaskRepository()->findByStatus('new');
-        var_dump($tasks);
 
         return $this->render('index/index.html.twig', array(
             'tasks' => $tasks,
@@ -63,11 +62,4 @@ class IndexController extends Controller
         ));
     }
 
-    /**
-     * [getRepository description]
-     * @return [type] [description]
-     */
-    private function getTaskRepository () {
-        return $this->getDoctrine()->getRepository(Task::class);
-    }
 }

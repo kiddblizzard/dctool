@@ -14,10 +14,13 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Entity\Bau;
+use App\Controller\Traits\HasRepositories;
 
 
 class BauController extends Controller
 {
+    use HasRepositories;
+
     /**
      * [index description]
      * @Route("/bau", name="bau")
@@ -29,7 +32,7 @@ class BauController extends Controller
         $pageNumber = $request->query->get('page', 1);
         $keyWord = $request->query->get('keyWord', null);
 
-        $query = $this->getRepository()->findByKeyword($keyWord);
+        $query = $this->getBauRepository()->findByKeyword($keyWord);
 
         $paginator = $this->get('knp_paginator');
 
@@ -155,12 +158,5 @@ class BauController extends Controller
         $entityManager->persist($bau);
         $entityManager->flush();
     }
-
-    /**
-     * [getRepository description]
-     * @return [type] [description]
-     */
-    private function getRepository () {
-        return $this->getDoctrine()->getRepository(Bau::class);
-    }
+    
 }

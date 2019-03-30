@@ -13,10 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Task;
-
+use App\Controller\Traits\HasRepositories;
 
 class TaskController extends Controller
 {
+    use HasRepositories;
+
     /**
      * [index description]
      * @Route("/tasks", name="tasks")
@@ -28,7 +30,7 @@ class TaskController extends Controller
         $pageNumber = $request->query->get('page', 1);
         $keyWord = $request->query->get('keyWord', null);
 
-        $query = $this->getRepository()->findByKeyword($keyWord);
+        $query = $this->getTaskRepository()->findByKeyword($keyWord);
 
         $paginator = $this->get('knp_paginator');
 
@@ -142,11 +144,4 @@ class TaskController extends Controller
         $entityManager->flush();
     }
 
-    /**
-     * [getRepository description]
-     * @return [type] [description]
-     */
-    private function getRepository () {
-        return $this->getDoctrine()->getRepository(Task::class);
-    }
 }

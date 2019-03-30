@@ -18,9 +18,12 @@ use App\Entity\Device;
 use App\Entity\Model;
 use App\Entity\Manufacturer;
 use App\Service\FileUploader;
+use App\Controller\Traits\HasRepositories;
 
 class DeviceController extends Controller
 {
+    use HasRepositories;
+
     /**
      * show the list of devices
      * @Route("/devices", name="devices")
@@ -32,7 +35,7 @@ class DeviceController extends Controller
         $pageNumber = $request->query->get('page', 1);
         $keyWord = $request->query->get('keyWord', null);
 
-        $query = $this->getRepository()->findByKeyword($keyWord);
+        $query = $this->getDeviceRepository()->findByKeyword($keyWord);
 
         $paginator = $this->get('knp_paginator');
 
@@ -63,9 +66,7 @@ class DeviceController extends Controller
     {
         $device = new Device();
 
-        $manufacturers = $this->getDoctrine()
-        ->getRepository(Manufacturer::class)
-        ->findAll();
+        $manufacturers = $this->getManufacturerRepository->findAll();
 
         $form = $this->getDeivceForm(
             $device,
@@ -104,9 +105,7 @@ class DeviceController extends Controller
             )
         );
 
-        $manufacturers = $this->getDoctrine()
-            ->getRepository(Manufacturer::class)
-            ->findAll();
+        $manufacturers = $this->getManufacturerRepository->findAll();
 
         $form->handleRequest($request);
 
@@ -273,32 +272,5 @@ class DeviceController extends Controller
         $entityManager->persist($entity);
         $entityManager->flush();
     }
-
-    /**
-     * [getRepository description]
-     * @return [type] [description]
-     */
-    private function getRepository() {
-        return $this->getDoctrine()->getRepository(Device::class);
-    }
-
-    /**
-     * [getRepository description]
-     * @return [type] [description]
-     */
-    private function getRackRepository() {
-        return $this->getDoctrine()->getRepository(Rack::class);
-    }
-
-    private function getManuRepository() {
-        return $this->getDoctrine()->getRepository(Manufacturer::class);
-    }
-
-    /**
-     * [getRepository description]
-     * @return [type] [description]
-     */
-    private function getModelRepository() {
-        return $this->getDoctrine()->getRepository(Model::class);
-    }
+    
 }
