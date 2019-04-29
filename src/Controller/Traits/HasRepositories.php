@@ -10,6 +10,7 @@ use App\Entity\Part;
 use App\Entity\Rack;
 use App\Entity\Model;
 use App\Entity\Task;
+use App\Entity\Receiving;
 
 trait HasRepositories
 {
@@ -68,5 +69,20 @@ trait HasRepositories
      */
     private function getTaskRepository () {
         return $this->getDoctrine()->getRepository(Task::class);
+    }
+
+    /**
+     * [getReceivingRepository description]
+     * @return [type] [description]
+     */
+    private function getReceivingRepository () {
+        return $this->getDoctrine()->getRepository(Receiving::class);
+    }
+
+    private function save($manufacturer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($manufacturer);
+        $entityManager->flush();
     }
 }

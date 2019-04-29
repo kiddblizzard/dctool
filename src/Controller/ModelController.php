@@ -10,15 +10,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Entity\Part;
 use App\Entity\Model;
 use App\Entity\Manufacturer;
 use App\Entity\Location;
+use App\Constants\ModelTypeOptions;
 use App\Controller\Traits\HasRepositories;
+use App\Controller\Traits\HasUploadFile;
+use App\Service\FileUploader;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class ModelController extends Controller
 {
     use HasRepositories;
+    use HasUploadFile;
 
     /**
      * show the list of devices
@@ -41,10 +50,15 @@ class ModelController extends Controller
             10
         );
 
+        $form = $this->getModelExcelForm(
+            $this->generateUrl('ajax_model_upload_excel')
+        );
+
         return $this->render('model/list.html.twig', array(
             'models' => $pagination,
             'keyWord' => $keyWord,
-            'navbar' => 'model'
+            'navbar' => 'model',
+            'form' => $form->createView(),
         ));
     }
 
@@ -57,7 +71,7 @@ class ModelController extends Controller
     {
         $model = new Model();
 
-        $manufacturers = $this->getManufacturerRepository->findAll();
+        $manufacturers = $this->getManufacturerRepository()->findAll();
 
         $form = $this->getModelForm(
             $model,
@@ -127,14 +141,19 @@ class ModelController extends Controller
                 'choice_label' => 'name',
             ])
             ->add('type', ChoiceType::class, [
-                'choices'  => [
-                    'Server' => 'SERVER',
-                    'Network' => 'NETWORK_SWITCH',
-                ],
+                'choices'  => ModelTypeOptions::getModelTypeOptions(),
             ])
             ->add('model', TextType::class, ['required' => false])
 
             ->add('save', SubmitType::class, array('label' => 'Submit'))
+            ->getForm();
+    }
+
+    private function getModelExcelForm($path)
+    {
+        return $this->createFormBuilder()
+            ->setAction($path)
+            ->setMethod('POST')
             ->getForm();
     }
 

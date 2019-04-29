@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+    <form method="POST">
+        {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.due_date) }}
+            {{ form_errors(form.due_date) }}
+            {{ form_widget(form.due_date) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.type) }}
+            {{ form_errors(form.type) }}
+            {{ form_widget(form.type) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.content) }}
+            {{ form_errors(form.content) }}
+            {{ form_widget(form.content, {'attr': {class: 'form-control'} }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.delivery) }}
+            {{ form_errors(form.delivery) }}
+            {{ form_widget(form.delivery, {'attr': {class: 'form-control'} }) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.has_ct_access) }}
+            {{ form_errors(form.has_ct_access) }}
+            {{ form_widget(form.has_ct_access, {'attr': {class: 'form-control'} }) }}
+        </div>
+
+        <a
+            class="btn btn-warning"
+            href="{{ path('tasks') }}"
+        >
+            Cancel
+        </a>
+
+        {{ form_widget(form.status) }}
+        {{ form_widget(form.save, {'attr':{class:'btn btn-primary float-right'}}) }}
+        {{ form_end(form) }}
+    </form>
+    </div>
+{% endblock %}

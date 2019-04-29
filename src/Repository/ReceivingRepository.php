@@ -47,4 +47,17 @@ class ReceivingRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByKeyword($keyWord = null)
+    {
+        $query = $this->createQueryBuilder('r');
+
+        if (!is_null($keyWord) && !empty($keyWord)) {
+            $query->where($query->expr()->like('r.detail', '?1'))
+                ->setParameter('1', '%'.$keyWord.'%');
+        }
+        $query->orderBy('r.planned_date', 'ASC');
+
+        return $query->getQuery();
+    }
 }

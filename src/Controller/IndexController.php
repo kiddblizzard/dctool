@@ -22,6 +22,8 @@ class IndexController extends Controller
      */
     public function index()
     {
+        $receivings = $this->getReceivingRepository->findByStatus('new');
+        
         $tasks = $this->getTaskRepository()->findByStatus('new');
 
         return $this->render('index/index.html.twig', array(

@@ -2,6 +2,51 @@
 {% block body %}
     {% include "nav/nav.twig" %}
     <div class="container-fluid">
+        <!-- Modal -->
+        <div
+            class="modal fade"
+            id="uploadModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="uploadModalTitle"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    {{ form_start(form) }}
+                    <div class="modal-header">
+                        <h5
+                            class="modal-title"
+                            id="uploadModalTitle"
+                        >
+                            Upload Excel
+                        </h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input
+                            type="file"
+                            name="file"
+                            id="models_excel"
+                            class="btn btn-success fileinput-button"
+                            multiple="multiple"
+                        />
+                    </div>
+                    <div id="progress">
+                        <div class="bar" style="width: 0%;"></div>
+                    </div>
+                    <div class="modal-footer"></div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm">
                 <form method="GET" class="form-inline my-2 my-lg-0 d-block search-bar">
@@ -34,6 +79,15 @@
                 </form>
             </div>
             <div class="col-sm mb-3">
+                <button
+                    type="button"
+                    class="btn btn-primary float-md-right float-sm-left"
+                    data-toggle="modal"
+                    data-target="#uploadModal"
+                >
+                    Upload Excel
+                </button>
+
                 <a
                     class="btn btn-primary float-md-right float-sm-left"
                     href="{{ path('new_model') }}"

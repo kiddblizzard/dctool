@@ -17,8 +17,8 @@ use App\Entity\Rack;
 use App\Entity\Device;
 use App\Entity\Model;
 use App\Entity\Manufacturer;
-use App\Service\FileUploader;
 use App\Controller\Traits\HasRepositories;
+use App\Service\FileUploader;
 
 class DeviceController extends Controller
 {
@@ -159,7 +159,7 @@ class DeviceController extends Controller
                     $powerSource = $sheet->getCell('D'.$i);
                     $unit = $sheet->getCell('E'.$i);
                     $manufacturer = $sheet->getCell('F'.$i);
-                    $model = $sheet->getCell('G'.$i);
+                    $modelName = $sheet->getCell('G'.$i);
                     $platform = $sheet->getCell('H'.$i);
                     $sn = $sheet->getCell('I'.$i);
                     $name = $sheet->getCell('J'.$i);
@@ -186,9 +186,9 @@ class DeviceController extends Controller
                     }
 
                     $modelEntity = $this->getModelRepository()
-                        ->getOneByMM(
+                        ->getOneByManuModelName(
                             $manufacturerEntity,
-                            $model
+                            $modelName
                         );
 
                     if (is_null($modelEntity)) {
@@ -272,5 +272,5 @@ class DeviceController extends Controller
         $entityManager->persist($entity);
         $entityManager->flush();
     }
-    
+
 }
