@@ -37,7 +37,7 @@ class ModelRepository extends ServiceEntityRepository
        return $a->getOneOrNullResult();
    }
 
-   public function getOneByMM($manufacturer, $model)
+   public function getOneByManuModelName($manufacturer, $model)
    {
        $a = $this->createQueryBuilder('m')
            ->where('m.manufacturer = :manufacturer')

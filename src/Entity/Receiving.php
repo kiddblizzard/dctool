@@ -21,14 +21,6 @@ class Receiving
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     */
-    private $project_name;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(type="date")
      *
      */
@@ -37,66 +29,48 @@ class Receiving
     /**
      * @var string
      *
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      *
      */
-    private $hostname;
+    private $detail;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      *
      */
-    private $location;
+    private $delivery_info;
+
+    /**
+     * [private description]
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $access;
 
     /**
      * @var string
+     * new/completed/
      *
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="string", length=20, options={"default" = "new"})
      *
      */
-    private $trellis_ids;
+    private $status;
 
     /**
      * @var string
+     * receiving/sending
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     */
-    private $change_id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=20, nullable=true)
      *
      */
-    private $sltn;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     */
-    private $po;
+    private $type;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getProjectName(): ?string
-    {
-        return $this->project_name;
-    }
-
-    public function setProjectName(?string $project_name): self
-    {
-        $this->project_name = $project_name;
-
-        return $this;
     }
 
     public function getPlannedDate(): ?\DateTimeInterface
@@ -111,76 +85,66 @@ class Receiving
         return $this;
     }
 
-    public function getHostname(): ?array
+    public function getDetail(): ?string
     {
-        return $this->hostname;
+        return $this->detail;
     }
 
-    public function setHostname(?array $hostname): self
+    public function setDetail(?string $detail): self
     {
-        $this->hostname = $hostname;
+        $this->detail = $detail;
 
         return $this;
     }
 
-    public function getLocation(): ?array
+    public function getDeliveryInfo(): ?string
     {
-        return $this->location;
+        return $this->delivery_info;
     }
 
-    public function setLocation(?array $location): self
+    public function setDeliveryInfo(?string $delivery_info): self
     {
-        $this->location = $location;
+        $this->delivery_info = $delivery_info;
 
         return $this;
     }
 
-    public function getTrellisIds(): ?array
+    public function getAccess(): ?bool
     {
-        return $this->trellis_ids;
+        return $this->access;
     }
 
-    public function setTrellisIds(?array $trellis_ids): self
+    public function setAccess(bool $access): self
     {
-        $this->trellis_ids = $trellis_ids;
+        $this->access = $access;
 
         return $this;
     }
 
-    public function getChangeId(): ?string
+    public function getType(): ?string
     {
-        return $this->change_id;
+        return $this->type;
     }
 
-    public function setChangeId(?string $change_id): self
+    public function setType(?string $type): self
     {
-        $this->change_id = $change_id;
+        $this->type = $type;
 
         return $this;
     }
 
-    public function getSltn(): ?string
+    public function getStatus(): ?string
     {
-        return $this->sltn;
+        return $this->status;
     }
 
-    public function setSltn(?string $sltn): self
+    public function setStatus(string $status): self
     {
-        $this->sltn = $sltn;
+        $this->status = $status;
 
         return $this;
     }
 
-    public function getPo(): ?string
-    {
-        return $this->po;
-    }
 
-    public function setPo(?string $po): self
-    {
-        $this->po = $po;
-
-        return $this;
-    }
 
 }
