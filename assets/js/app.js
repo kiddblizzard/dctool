@@ -29,7 +29,6 @@ $(function () {
             );
         },
         done: function (e, data) {
-            // data.context.text('Upload finished.');
             if (data.result.error == 1) {
                 $(".modal-body").prepend('<p class="red">' + data.result.msg + '</p>');
             } else {

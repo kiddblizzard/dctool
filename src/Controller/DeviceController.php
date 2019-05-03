@@ -66,7 +66,7 @@ class DeviceController extends Controller
     {
         $device = new Device();
 
-        $manufacturers = $this->getManufacturerRepository->findAll();
+        $manufacturers = $this->getManufacturerRepository()->findAll();
 
         $form = $this->getDeivceForm(
             $device,
