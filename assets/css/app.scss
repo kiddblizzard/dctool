@@ -8,10 +8,6 @@
     margin-bottom: 50px;
 }
 
-.navbar {
-    margin-bottom: 10px;
-}
-
 @media (min-width: 768px) {
     .search-bar {
         width: 50%;
@@ -21,4 +17,12 @@
 .bar {
     height: 18px;
     background: green;
+}
+
+.upload_result {
+    width: 100%;
+}
+
+.left-nav {
+    padding: 0;
 }

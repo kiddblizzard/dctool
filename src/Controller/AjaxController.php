@@ -18,14 +18,13 @@ use App\Entity\Device;
 use App\Entity\Model;
 use App\Entity\Manufacturer;
 use App\Controller\Traits\HasRepositories;
-use App\Controller\Traits\HasUploadFile;
+use App\Controller\Traits\HasExcel;
 use App\Service\FileUploader;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class AjaxController extends FOSRestController
 {
     use HasRepositories;
+    use HasExcel;
 
     var $result = [
         "error" => 0,
@@ -47,16 +46,10 @@ class AjaxController extends FOSRestController
 
         try {
             /** Load $inputFileName to a Spreadsheet Object  **/
-            $reader = new Xlsx();
-            $reader->setReadDataOnly(true);
-            $spreadsheet = $reader->load($path);
-            $sheet = $spreadsheet->getSheet(0);
+            $sheet = $this->getExcelSheet($path);
             $totalRow = $sheet->getHighestRow();
 
-            if (strtolower($sheet->getCell('A1')->getValue()) !== 'manufacturer'
-            || strtolower($sheet->getCell('B1')->getValue()) !== 'model'
-            || strtolower($sheet->getCell('C1')->getValue()) !== 'categorytag') {
-
+            if (!$this->isModelExcel($sheet)) {
                 $this->result['error'] = 1;
                 $this->result['msg'] = "Excel Format Wrong";
 
@@ -65,28 +58,18 @@ class AjaxController extends FOSRestController
 
             $result = [];
             for ($i = 2; $i <= $totalRow; $i++) {
-                $array = [
-                    "manufacturer" => $sheet->getCell('A'.$i)->getValue(),
-                    "model" => $sheet->getCell('B'.$i)->getValue(),
-                    "type" => !is_null($sheet->getCell('C'.$i)->getValue())?$sheet->getCell('C'.$i)->getValue():"",
-                    "status" => "Existed"
-                ];
+                $array = $this->sheetToArray($sheet, $i);
 
-                if (
-                    empty($array['manufacturer']) ||
-                    empty($array['model']) ||
-                    empty($array['type'])
-                ) {
-                    $array['status'] = 'Data Incomplete';
-                } else {
+                if ($array['status'] != 'Data Incomplete') {
                     $manufacturer = $this->getManufacturerRepository()
                         ->findOneByName($array['manufacturer']);
 
                     if (!is_null($manufacturer)) {
-                        $model = $this->getModelRepository()->getOneByManuModelName(
-                            $manufacturer,
-                            $array['model']
-                        );
+                        $model = $this->getModelRepository()
+                            ->getOneByManuModelName(
+                                $manufacturer,
+                                $array['model']
+                            );
                     } else {
                         $manufacturer = New Manufacturer();
                         $manufacturer->setName($array['manufacturer']);
