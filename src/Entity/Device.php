@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -275,6 +277,12 @@ class Device
     private $application_avail_mntrng_tier;
 
     /**
+    * @ORM\ManyToMany(targetEntity="App\Entity\PowerSource", mappedBy="devices")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $power_sources;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=100, nullable=true)
@@ -298,21 +306,10 @@ class Device
      */
     private $support_chg;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=50, nullable=true)
-     *
-     */
-    private $row_name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=50, nullable=true)
-     *
-     */
-    private $power_source;
+    public function __construct()
+    {
+        $this->power_sources = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -770,18 +767,6 @@ class Device
         return $this;
     }
 
-    public function getRowName(): ?string
-    {
-        return $this->row_name;
-    }
-
-    public function setRowName(?string $row_name): self
-    {
-        $this->row_name = $row_name;
-
-        return $this;
-    }
-
     public function getPowerSource(): ?string
     {
         return $this->power_source;
@@ -794,5 +779,31 @@ class Device
         return $this;
     }
 
+    /**
+     * @return Collection|PowerSource[]
+     */
+    public function getPowerSources(): Collection
+    {
+        return $this->power_sources;
+    }
 
+    public function addPowerSource(PowerSource $powerSource): self
+    {
+        if (!$this->power_sources->contains($powerSource)) {
+            $this->power_sources[] = $powerSource;
+            $powerSource->addDevice($this);
+        }
+
+        return $this;
+    }
+
+    public function removePowerSource(PowerSource $powerSource): self
+    {
+        if ($this->power_sources->contains($powerSource)) {
+            $this->power_sources->removeElement($powerSource);
+            $powerSource->removeDevice($this);
+        }
+
+        return $this;
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,10 +45,21 @@ class Rack
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=20, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=true)
      *
      */
-    private $rack_row;
+    private $row_name;
+
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\PowerSource", mappedBy="rack")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $power_sources;
+
+    public function __construct()
+    {
+        $this->power_sources = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -112,6 +125,49 @@ class Rack
     public function setRackRow(?string $rack_row): self
     {
         $this->rack_row = $rack_row;
+
+        return $this;
+    }
+
+    public function getRowName(): ?string
+    {
+        return $this->row_name;
+    }
+
+    public function setRowName(?string $row_name): self
+    {
+        $this->row_name = $row_name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PowerSource[]
+     */
+    public function getPowerSources(): Collection
+    {
+        return $this->power_sources;
+    }
+
+    public function addPowerSource(PowerSource $powerSource): self
+    {
+        if (!$this->power_sources->contains($powerSource)) {
+            $this->power_sources[] = $powerSource;
+            $powerSource->setRack($this);
+        }
+
+        return $this;
+    }
+
+    public function removePowerSource(PowerSource $powerSource): self
+    {
+        if ($this->power_sources->contains($powerSource)) {
+            $this->power_sources->removeElement($powerSource);
+            // set the owning side to null (unless already changed)
+            if ($powerSource->getRack() === $this) {
+                $powerSource->setRack(null);
+            }
+        }
 
         return $this;
     }
