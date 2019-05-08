@@ -10,7 +10,7 @@ trait HasExcel
     var $modelExcel = [
             'A' => 'manufacturer',
             'B' => 'model',
-            'C' => 'categorytag',
+            'C' => 'type',
         ];
 
     private function getExcelSheet($path)

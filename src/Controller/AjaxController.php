@@ -38,8 +38,76 @@ class AjaxController extends FOSRestController
      * @param  FileUploader $fileUploader
      * @return [type] [description]
      */
-    public function uploadExcelAction(Request $request, FileUploader $fileUploader)
-    {
+    public function uploadModelExcelAction(
+        Request $request,
+        FileUploader $fileUploader
+    ){
+        $file = $request->files->get('file');
+        $fileName = $fileUploader->upload($file);
+        $path = $fileUploader->getTargetDirectory().$fileName;
+
+        try {
+            /** Load $inputFileName to a Spreadsheet Object  **/
+            $sheet = $this->getExcelSheet($path);
+            $totalRow = $sheet->getHighestRow();
+
+            if (!$this->isModelExcel($sheet)) {
+                $this->result['error'] = 1;
+                $this->result['msg'] = "Excel Format Wrong";
+
+                return ;
+            }
+
+            $result = [];
+            for ($i = 2; $i <= $totalRow; $i++) {
+                $array = $this->sheetToArray($sheet, $i);
+
+                if ($array['status'] != 'Data Incomplete') {
+                    $manufacturer = $this->getManufacturerRepository()
+                        ->findOneByName($array['manufacturer']);
+
+                    if (!is_null($manufacturer)) {
+                        $model = $this->getModelRepository()
+                            ->getOneByManuModelName(
+                                $manufacturer,
+                                $array['model']
+                            );
+                    } else {
+                        $manufacturer = New Manufacturer();
+                        $manufacturer->setName($array['manufacturer']);
+                        $this->save($manufacturer);
+                        $model = NULL;
+                    }
+
+                    if (is_null($model)) {
+                        $model = New Model();
+                        $model->setModel($array['model']);
+                        $model->setType($array['type']);
+                        $model->setManufacturer($manufacturer);
+                        $this->save($model);
+                        $array['status'] = 'Added';
+                    }
+                }
+
+                array_push($this->result['result'], $array);
+            }
+        } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+            die('Error loading file: '.$e->getMessage());
+        }
+
+        return $this->result;
+    }
+
+    /**
+     * @Post("/ajax/devices/upload", name="ajax_device_upload_excel")
+     * @param  Request $request [description]
+     * @param  FileUploader $fileUploader
+     * @return [type] [description]
+     */
+    public function uploadDeviceExcelAction(
+        Request $request,
+        FileUploader $fileUploader
+    ) {
         $file = $request->files->get('file');
         $fileName = $fileUploader->upload($file);
         $path = $fileUploader->getTargetDirectory().$fileName;
