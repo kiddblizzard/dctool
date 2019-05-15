@@ -32,12 +32,51 @@ class DeviceRepository extends ServiceEntityRepository
 
         if (!is_null($keyWord) && !empty($keyWord)) {
             $query->where($query->expr()->like('d.name', '?1'))
-                ->orWhere($query->expr()->like('d.serialNumber', '?1'))
+                ->orWhere($query->expr()->like('d.serial_number', '?1'))
                 ->orWhere($query->expr()->like('d.barcode_number', '?1'))
                 ->setParameter('1', '%'.$keyWord.'%');
         }
         $query->orderBy('d.id', 'DESC');
 
         return $query->getQuery();
+    }
+
+    public function findByRackAndKeyword($rack, $keyWord = null)
+    {
+        $query = $this->createQueryBuilder('d');
+
+        if (!is_null($keyWord) && !empty($keyWord)) {
+            $query->where(
+                $query->expr()->orX(
+                    $query->expr()->like('d.name', '?1'),
+                    $query->expr()->like('d.serial_number', '?1'),
+                    $query->expr()->like('d.barcode_number', '?1')
+                ))
+                ->setParameter('1', '%'.$keyWord.'%');
+        }
+        $query->andWhere('d.rack = :rack')
+            ->setParameter('rack', $rack)
+            ->orderBy('d.id', 'DESC');
+
+        return $query->getQuery();
+    }
+
+    public function findOneBySerialNumberOrNameOrBarcode(
+        $serialNumber,
+        $name,
+        $barcode
+    ) {
+        $a = $this->createQueryBuilder('d')
+            ->where('d.serial_number = :serial_number')
+            ->orWhere('d.name = :name')
+            ->orWhere('d.barcode_number = :barcode')
+            ->setParameter('serial_number', $serialNumber)
+            ->setParameter('name', $name)
+            ->setParameter('barcode', $barcode)
+            ->orderBy('d.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $a;
     }
 }
