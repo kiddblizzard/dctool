@@ -11,6 +11,7 @@ use App\Entity\Rack;
 use App\Entity\Model;
 use App\Entity\Task;
 use App\Entity\Receiving;
+use App\Entity\PowerSource;
 
 trait HasRepositories
 {
@@ -77,6 +78,14 @@ trait HasRepositories
      */
     private function getReceivingRepository () {
         return $this->getDoctrine()->getRepository(Receiving::class);
+    }
+
+    /**
+     * [getReceivingRepository description]
+     * @return [type] [description]
+     */
+    private function getPowerSourceRepository () {
+        return $this->getDoctrine()->getRepository(PowerSource::class);
     }
 
     private function save($manufacturer)

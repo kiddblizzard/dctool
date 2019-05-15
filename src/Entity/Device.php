@@ -24,7 +24,7 @@ class Device
      * @ORM\Column(type="text", length=100, nullable=true)
      *
      */
-    private $serialNumber;
+    private $serial_number;
 
     /**
      * @var string
@@ -87,7 +87,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      *
      */
     private $unit;
@@ -324,7 +324,7 @@ class Device
      */
     public function getSerialNumber()
     {
-        return $this->serialNumber;
+        return $this->serial_number;
     }
 
     /**
@@ -332,7 +332,7 @@ class Device
      */
     public function setSerialNumber($serialNumber)
     {
-        $this->serialNumber = $serialNumber;
+        $this->serial_number = $serialNumber;
     }
 
     /**
@@ -763,18 +763,6 @@ class Device
     public function setSupportChg(?string $support_chg): self
     {
         $this->support_chg = $support_chg;
-
-        return $this;
-    }
-
-    public function getPowerSource(): ?string
-    {
-        return $this->power_source;
-    }
-
-    public function setPowerSource(?string $power_source): self
-    {
-        $this->power_source = $power_source;
 
         return $this;
     }
