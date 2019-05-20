@@ -14,8 +14,10 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\Delete;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\Put;
 use App\Entity\Device;
 use App\Entity\Model;
+use App\Entity\Receiving;
 use App\Entity\PowerSource;
 use App\Entity\Manufacturer;
 use App\Entity\Rack;
@@ -240,6 +242,39 @@ class AjaxController extends FOSRestController
         }
         return $arrEntity;
     }
+
+    /**
+     * @Put("/ajax/receiving/{receiving}/access", name="ajax_receiving_access")
+     * @param  Request $request [description]
+     * @return [type] [description]
+     */
+    public function putRecevingAccess(Receiving $receiving, Request $request)
+    {
+        $access = $request->request->get('access');
+        $receiving->setAccess($access);
+        $receiving->getAccess();
+        $this->save($receiving);
+
+        $this->result['result'] = $access;
+
+        return $this->result;
+    }
+
+    /**
+     * @Put("/ajax/receiving/{receiving}/status", name="ajax_receiving_status")
+     * @param  Request $request [description]
+     * @return [type] [description]
+     */
+    public function putRecevingStatus(Receiving $receiving, Request $request)
+    {
+        $status = $request->request->get('status');
+        $receiving->setStatus($status);
+        $this->save($receiving);
+        $this->result['result'] = $status;
+
+        return $this->result;
+    }
+
 
     /**
      * show the list of devices

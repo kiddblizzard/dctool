@@ -5,9 +5,9 @@
     <form method="POST">
         {{ form_start(form) }}
         <div class="form-group">
-            {{ form_label(form.due_date) }}
-            {{ form_errors(form.due_date) }}
-            {{ form_widget(form.due_date) }}
+            {{ form_label(form.planned_date) }}
+            {{ form_errors(form.planned_date) }}
+            {{ form_widget(form.planned_date) }}
         </div>
         <div class="form-group">
             {{ form_label(form.type) }}
@@ -15,24 +15,24 @@
             {{ form_widget(form.type) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.content) }}
-            {{ form_errors(form.content) }}
-            {{ form_widget(form.content, {'attr': {class: 'form-control'} }) }}
+            {{ form_label(form.detail) }}
+            {{ form_errors(form.detail) }}
+            {{ form_widget(form.detail, {'attr': {class: 'form-control'} }) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.delivery) }}
-            {{ form_errors(form.delivery) }}
-            {{ form_widget(form.delivery, {'attr': {class: 'form-control'} }) }}
+            {{ form_label(form.delivery_info) }}
+            {{ form_errors(form.delivery_info) }}
+            {{ form_widget(form.delivery_info, {'attr': {class: 'form-control'} }) }}
         </div>
         <div class="form-group">
-            {{ form_label(form.has_ct_access) }}
-            {{ form_errors(form.has_ct_access) }}
-            {{ form_widget(form.has_ct_access, {'attr': {class: 'form-control'} }) }}
+            {{ form_label(form.access) }}
+            {{ form_errors(form.access) }}
+            {{ form_widget(form.access, {'attr': {class: 'form-control'} }) }}
         </div>
 
         <a
             class="btn btn-warning"
-            href="{{ path('tasks') }}"
+            href="{{ path('receivings') }}"
         >
             Cancel
         </a>

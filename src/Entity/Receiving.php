@@ -145,6 +145,20 @@ class Receiving
         return $this;
     }
 
+    public function showHasAccess(): ?string
+    {
+        return $this->access?"Yes":"No";
+    }
 
+    public function showTypeInText(): ?string
+    {
+        if ($this->type == 'receiving') {
+            return 'Device Roll In';
+        } else if ($this->type == 'sending') {
+            return 'Device Roll Out';
+        } else {
+            return "";
+        }
+    }
 
 }

@@ -2,7 +2,7 @@
 {% block body %}
     {% include "nav/nav.twig" %}
     <div class="container-fluid">
-        {% if tasks|length > 0 %}
+        {% if receivings|length > 0 %}
             Transportation
             <div class="table-responsive-md">
                 <table class="table">
@@ -17,31 +17,65 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for task in tasks %}
+                        {% for receiving in receivings %}
                         <tr class="
-                            {% if task.getType() == "device_roll_in" %}
-                            table-danger
-                            {% elseif task.getType() == "device_roll_out" %}
-                            table-info
-                            {% endif %}
-                        ">
+                                {% if receiving.getType() == "device_roll_in" %}
+                                table-danger
+                                {% elseif receiving.getType() == "device_roll_out" %}
+                                table-info
+                                {% endif %}
+                                list_receiving
+                            "
+                            data-id = "{{ receiving.getId() }}"
+                        >
                             <td>
                                 <a href="
                                     {{ path(
-                                        'edit_task',
-                                        {'task':task.getId()}
+                                        'edit_receiving',
+                                        {'receiving':receiving.getId()}
                                     ) }}
                                 ">
-                                    {{ task.getDueDate() | date("m/d/y ") }}
+                                    {{ receiving.getPlannedDate() | date("m/d/y ") }}
                                 </a>
                             </td>
                             <td>
-                                {{ task.showTypeInText() }}
+                                {{ receiving.showTypeInText() }}
                             </td>
-                            <td> {{ task.getContent() }} </td>
-                            <td> {{ task.getDelivery() }} </td>
-                            <td> {{ task.showHasCtAccess() }} </td>
-                            <td> {{ task.getStatus() }} </td>
+                            <td>{{ receiving.getDetail() }} </td>
+                            <td>{{ receiving.getDeliveryInfo() }} </td>
+                            <td>
+                                <select class="list_receiving_access">
+                                    <option
+                                        value=1
+                                        {% if receiving.getAccess() %}
+                                            selected = selected
+                                        {% endif %}
+                                    >Yes</option>
+                                    <option
+                                        value=0
+                                        {% if receiving.getAccess()==false %}
+                                            selected = selected
+                                        {% endif %}
+                                    >No</option>
+
+                                </select>
+                            </td>
+                            <td>
+                                <select class="list_receiving_status">
+                                    <option
+                                        value="new"
+                                        {% if receiving.getStatus()=="new" %}
+                                            selected = selected
+                                        {% endif %}
+                                    >New</option>
+                                    <option
+                                        value="done"
+                                        {% if receiving.getStatus()=="done" %}
+                                            selected = selected
+                                        {% endif %}
+                                    >Done</option>
+                                </select>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
