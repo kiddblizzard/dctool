@@ -26,7 +26,7 @@
                         <div class="input-group-append">
                             <a
                                 class="btn btn-outline-secondary"
-                                href="{{ path('tasks') }}"
+                                href="{{ path('receivings') }}"
                             >
                                 Clear
                             </a>
@@ -37,9 +37,9 @@
             <div class="col-sm mb-3">
                 <a
                     class="btn btn-primary float-md-right float-sm-left"
-                    href="{{ path('new_task') }}"
+                    href="{{ path('new_receiving') }}"
                 >
-                    New Task
+                    New Receiving
                 </a>
             </div>
         </div>
@@ -47,40 +47,72 @@
             <table class="table">
                 <thead class="thead-light">
                     <tr>
-                        <th>Due Date</th>
+                        <th>Planned Date</th>
                         <th>Type</th>
-                        <th>Description</th>
-                        <th>Delivery Info</th>
+                        <th>Detail</th>
+                        <th>Delivery</th>
                         <th>CT Access</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for task in pagination %}
-                    <tr class="
-                        {% if task.getType() == "device_roll_in" %}
-                        table-danger
-                        {% elseif task.getType() == "device_roll_out" %}
-                        table-info
-                        {% endif %}
-                    ">
+                    {% for receiving in pagination %}
+                    <tr class=
+                            "{% if receiving.getType() == "device_roll_in" %}
+                            table-danger
+                            {% elseif receiving.getType() == "device_roll_out" %}
+                            table-info
+                            {% endif %}"
+                        data-id = "{{ receiving.getId() }}"
+                    >
                         <td>
                             <a href="
                                 {{ path(
-                                    'edit_task',
-                                    {'task':task.getId()}
+                                    'edit_receiving',
+                                    {'receiving': receiving.getId()}
                                 ) }}
                             ">
-                                {{ task.getDueDate() | date("m/d/y ") }}
+                                {{ receiving.getPlannedDate() | date("m/d/y ") }}
                             </a>
                         </td>
                         <td>
-                            {{ task.showTypeInText() }}
+                            {{ receiving.showTypeInText() }}
                         </td>
-                        <td> {{ task.getContent() }} </td>
-                        <td> {{ task.getDelivery() }} </td>
-                        <td> {{ task.showHasCtAccess() }} </td>
-                        <td> {{ task.getStatus() }} </td>
+                        <td> {{ receiving.getDetail() }} </td>
+                        <td> {{ receiving.getDeliveryInfo() }} </td>
+                        <td>
+                            <select class="list_receiving_access">
+                                <option
+                                    value=1
+                                    {% if receiving.getAccess() %}
+                                        selected = selected
+                                    {% endif %}
+                                >Yes</option>
+                                <option
+                                    value=0
+                                    {% if receiving.getAccess()==false %}
+                                        selected = selected
+                                    {% endif %}
+                                >No</option>
+
+                            </select>
+                        </td>
+                        <td>
+                            <select class="list_receiving_status">
+                                <option
+                                    value="new"
+                                    {% if receiving.getStatus()=="new" %}
+                                        selected = selected
+                                    {% endif %}
+                                >New</option>
+                                <option
+                                    value="done"
+                                    {% if receiving.getStatus()=="done" %}
+                                        selected = selected
+                                    {% endif %}
+                                >Done</option>
+                            </select>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

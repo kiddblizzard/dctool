@@ -111,3 +111,46 @@ $(function () {
         }
     });
 });
+
+
+$(function () {
+      $(".list_receiving_access").on('change', function() {
+
+          var id = $(this).parents("tr").data("id");
+          var jsonstr = {"id": id, "access": $(this).val()};
+          $.ajax({
+              url: "/ajax/receiving/"+ id +"/access",
+              dataType: "json",
+              type: "PUT",
+              contentType:"application/json",
+              data:JSON.stringify(jsonstr),
+              success:function (result) {
+
+              },
+              error: function (result) {
+                  consolse.log(id + " access change failed");
+              }
+          });
+      })
+});
+
+$(function () {
+      $(".list_receiving_status").on('change', function() {
+
+          var id = $(this).parents("tr").data("id");
+          var jsonstr = {"id": id, "status": $(this).val()};
+          $.ajax({
+              url: "/ajax/receiving/"+ id +"/status",
+              dataType: "json",
+              type: "PUT",
+              contentType:"application/json",
+              data:JSON.stringify(jsonstr),
+              success:function (result) {
+
+              },
+              error: function (result) {
+                  consolse.log(id + " status change failed");
+              }
+          });
+      })
+});

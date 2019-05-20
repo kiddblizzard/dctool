@@ -93,7 +93,7 @@ class ReceivingController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $item = $form->getData();
-            $this->saveReceiving($item);
+            $this->save($item);
 
             return $this->redirectToRoute('receivings');
         }
@@ -122,8 +122,8 @@ class ReceivingController extends Controller
 
                 ],
             ])
-            ->add('content', TextType::class)
-            ->add('delivery', TextType::class, ['required' => false])
+            ->add('detail', TextType::class)
+            ->add('delivery_info', TextType::class, ['required' => false])
             ->add('planned_date', DateType::class)
             ->add('status', HiddenType::class)
             ->add('access', ChoiceType::class, [
@@ -135,12 +135,5 @@ class ReceivingController extends Controller
             ->add('save', SubmitType::class, array('label' => 'Submit'))
             ->getForm();
     }
-
-    private function saveReceiving($receiving)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($receiving);
-        $entityManager->flush();
-    }
-
+    
 }

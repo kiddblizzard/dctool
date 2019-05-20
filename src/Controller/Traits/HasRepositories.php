@@ -9,7 +9,6 @@ use App\Entity\Device;
 use App\Entity\Part;
 use App\Entity\Rack;
 use App\Entity\Model;
-use App\Entity\Task;
 use App\Entity\Receiving;
 use App\Entity\PowerSource;
 
@@ -88,10 +87,10 @@ trait HasRepositories
         return $this->getDoctrine()->getRepository(PowerSource::class);
     }
 
-    private function save($manufacturer)
+    private function save($entity)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($manufacturer);
+        $entityManager->persist($entity);
         $entityManager->flush();
     }
 }
