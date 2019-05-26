@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,9 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use App\Entity\Bau;
+use App\Constants\BauTypeOptions;
 use App\Controller\Traits\HasRepositories;
-
+use App\Entity\Bau;
+use App\Entity\Site;
 
 class BauController extends Controller
 {
@@ -63,6 +65,9 @@ class BauController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $bau = $form->getData();
             $bau->setStatus('new');
+
+
+
             // ... perform some action, such as saving the bau to the database
             // for example, if bau is a Doctrine entity, save it!
             $this->saveBau($bau);
@@ -117,18 +122,9 @@ class BauController extends Controller
         return $this->createFormBuilder($bau)
             ->setAction($path)
             ->setMethod('POST')
-            ->add('chg_number', TextType::class)
+            ->add('chg_number', TextType::class,array('label' => 'CHG'))
             ->add('type', ChoiceType::class, [
-                'choices'  => [
-                    'Breakfix' => 'breakfix',
-                    'DCIM Request' => 'dcim_request',
-                    'Coodinate' => 'coodinate',
-                    'Rackstack' => 'rackstack',
-                    'Power On' => 'power_on',
-                    'Decommission' => 'decommission',
-                    'Cabling' => 'cabling',
-                    'Facility' => 'facility'
-                ],
+                'choices'  => BauTypeOptions::getBauTypeOptions(),
             ])
             ->add('description', TextareaType::class)
             ->add('start_time', DateTimeType::class)
@@ -140,9 +136,15 @@ class BauController extends Controller
                     'Yes' => true,
                     'No' => false,
                 ],
+                'label' => 'CMP',
             ])
+            ->add('inc_array', TextType::class, array('label' => 'INC'))
+            ->add('task_array', TextType::class, array('label' => 'Task'))
             ->add('status', TextType::class)
-            ->add('site', TextType::class)
+            ->add('site', EntityType::class, [
+                'class' => Site::class,
+                'choice_label' => 'name',
+            ])
             ->add('save', SubmitType::class, array('label' => 'Submit'))
             ->getForm();
     }
@@ -158,5 +160,5 @@ class BauController extends Controller
         $entityManager->persist($bau);
         $entityManager->flush();
     }
-    
+
 }
