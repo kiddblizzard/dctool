@@ -37,6 +37,22 @@ class Site
     /**
      * @var string
      *
+     * @ORM\Column(type="text", length=100)
+     *
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", length=100)
+     *
+     */
+    private $label;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="text", length=255)
      *
      */
@@ -47,9 +63,15 @@ class Site
     */
     private $devices;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Bau", mappedBy="site")
+    */
+    private $baus;
+
     public function __construct()
     {
         $this->devices = new ArrayCollection();
+        $this->baus = new ArrayCollection();
     }
 
     /**
@@ -141,6 +163,61 @@ class Site
             // set the owning side to null (unless already changed)
             if ($device->getSite() === $this) {
                 $device->setSite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(string $label): self
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bau[]
+     */
+    public function getBaus(): Collection
+    {
+        return $this->baus;
+    }
+
+    public function addBaus(Bau $baus): self
+    {
+        if (!$this->baus->contains($baus)) {
+            $this->baus[] = $baus;
+            $baus->setSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBaus(Bau $baus): self
+    {
+        if ($this->baus->contains($baus)) {
+            $this->baus->removeElement($baus);
+            // set the owning side to null (unless already changed)
+            if ($baus->getSite() === $this) {
+                $baus->setSite(null);
             }
         }
 

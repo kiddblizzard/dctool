@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Constants\BauTypeOptions;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -91,10 +92,27 @@ class Bau
      */
     private $cmp;
 
-    /**
-     * @ORM\Column(type="integer")
+     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="baus")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $site;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="array", nullable=true)
+     *
+     */
+    private $inc_array;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="array", nullable=true)
+     *
+     */
+    private $task_array;
 
     public function getId(): ?int
     {
@@ -161,18 +179,6 @@ class Bau
         return $this;
     }
 
-    public function getSite(): ?int
-    {
-        return $this->site;
-    }
-
-    public function setSite(int $site): self
-    {
-        $this->site = $site;
-
-        return $this;
-    }
-
     public function getStartTime(): ?\DateTimeInterface
     {
         return $this->start_time;
@@ -220,4 +226,64 @@ class Bau
 
         return $this;
     }
+
+    public function getIncArray(): ?string
+    {
+        if (empty($this->inc_array)) {
+            return "";
+        }
+        return implode(";", $this->inc_array);
+    }
+
+    public function setIncArray(?string $inc_string): self
+    {
+        $inc_array = explode(";", $inc_string);
+        $this->inc_array = $inc_array;
+
+        return $this;
+    }
+
+    public function getIncInArray(): ?array
+    {
+        return $this->inc_array;
+    }
+
+    public function getTaskArray(): ?string
+    {
+        if (empty($this->task_array)) {
+            return "";
+        }
+        return implode(";", $this->task_array);
+    }
+
+    public function setTaskArray(?string $task_string): self
+    {
+        $task_array = explode(";", $task_string);
+
+        $this->task_array = $task_array;
+
+        return $this;
+    }
+
+    public function getTaskInArray(): ?array
+    {
+        return $this->task_array;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    // public function getTypeForFront(): ?string
+    // {
+    //     return BauTypeOptions
+    // }
 }

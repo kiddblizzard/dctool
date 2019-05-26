@@ -46,6 +46,7 @@
             <table class="table">
                 <thead class="thead-light">
                     <tr>
+                        <th>#</th>
                         <th>Time</th>
                         <th>CHG/INC</th>
                         <th>Type</th>
@@ -58,25 +59,34 @@
                 <tbody>
                     {% for bau in pagination %}
                     <tr class="
-                        {% if bau.getSite() == 1 %}
+                        {% if bau.getSite().getId() == 1 %}
                         table-danger
-                        {% elseif bau.getSite() == 2 %}
+                        {% else %}
                         table-info
                         {% endif %}
                     ">
                         <td>
-                            From: {{ bau.getStartTime() | date("y/m/d H:i:s") }}
-                            <br />
-                            To: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ bau.getEndTime() | date("y/m/d H:i:s") }}
+                            <a href="{{ path(
+                                'edit_bau',
+                                {'bau':bau.getId()}
+                            ) }}">
+                                {{ bau.getId() }}
+                            </a>
                         </td>
                         <td>
-                            <a href="
-                                {{ path(
-                                    'edit_bau',
-                                    {'bau':bau.getId()}
-                                ) }}
-                            ">
-                            {{ bau.getChgNumber() }}
+                            From: {{ bau.getStartTime() | date("y/m/d H:i") }}
+                            <br />
+                            To: &nbsp;&nbsp;&nbsp;&nbsp;
+                            {{ bau.getEndTime() | date("y/m/d H:i") }}
+                        </td>
+                        <td>
+                            {{ bau.getChgNumber() }}<br />
+                            {% for task in bau.getTaskInArray() %}
+                                {{ task }} <br />
+                            {% endfor %}
+                            {% for inc in bau.getIncInArray() %}
+                                {{ inc }} <br />
+                            {% endfor %}
                         </a>
                         </td>
                         <td>
