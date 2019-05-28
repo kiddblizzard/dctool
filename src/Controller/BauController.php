@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Constants\BauTypeOptions;
+use App\Constants\BauStatusOptions;
 use App\Controller\Traits\HasRepositories;
 use App\Entity\Bau;
 use App\Entity\Site;
@@ -45,7 +46,8 @@ class BauController extends Controller
         );
 
         return $this->render('bau/index.html.twig', array(
-            'pagination' => $pagination,
+            'bauPagination' => $pagination,
+            'bauStatusOptions' => BauStatusOptions::getOptions(),
             'keyWord' => $keyWord,
             'navbar' => 'bau'
         ));
@@ -64,7 +66,7 @@ class BauController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $bau = $form->getData();
-            $bau->setStatus('new');
+            $bau->setStatus('pending');
 
 
 
@@ -124,8 +126,8 @@ class BauController extends Controller
             ->setMethod('POST')
             ->add('chg_number', TextType::class,array('label' => 'CHG'))
             ->add('type', ChoiceType::class, [
-                'choices'  => BauTypeOptions::getBauTypeOptions(),
-            ])
+                    'choices'  => BauTypeOptions::getBauTypeOptions(),
+                ])
             ->add('description', TextareaType::class)
             ->add('start_time', DateTimeType::class)
             ->add('end_time', DateTimeType::class)
@@ -140,7 +142,9 @@ class BauController extends Controller
             ])
             ->add('inc_array', TextType::class, array('label' => 'INC'))
             ->add('task_array', TextType::class, array('label' => 'Task'))
-            ->add('status', TextType::class)
+            ->add('status', ChoiceType::class, [
+                    'choices'  => BauStatusOptions::getOptions(),
+                ])
             ->add('site', EntityType::class, [
                 'class' => Site::class,
                 'choice_label' => 'name',

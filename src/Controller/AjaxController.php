@@ -21,6 +21,7 @@ use App\Entity\Receiving;
 use App\Entity\PowerSource;
 use App\Entity\Manufacturer;
 use App\Entity\Rack;
+use App\Entity\Bau;
 use App\Controller\Traits\HasRepositories;
 use App\Controller\Traits\HasExcel;
 use App\Service\FileUploader;
@@ -275,6 +276,20 @@ class AjaxController extends FOSRestController
         return $this->result;
     }
 
+    /**
+     * @Put("/ajax/bau/{bau}/status", name="ajax_bau_status")
+     * @param  Request $request [description]
+     * @return [type] [description]
+     */
+    public function putBauStatus(Bau $bau, Request $request)
+    {
+        $status = $request->request->get('status');
+        $bau->setStatus($status);
+        $this->save($bau);
+        $this->result['result'] = $status;
+
+        return $this->result;
+    }
 
     /**
      * show the list of devices

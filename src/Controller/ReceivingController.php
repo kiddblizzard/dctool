@@ -41,7 +41,7 @@ class ReceivingController extends Controller
         );
 
         return $this->render('receiving/index.html.twig', array(
-            'pagination' => $pagination,
+            'receivingPagination' => $pagination,
             'keyWord' => $keyWord,
             'navbar' => 'receiving'
         ));
@@ -135,5 +135,5 @@ class ReceivingController extends Controller
             ->add('save', SubmitType::class, array('label' => 'Submit'))
             ->getForm();
     }
-    
+
 }
