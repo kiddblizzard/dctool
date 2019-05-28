@@ -42,68 +42,10 @@
                 </a>
             </div>
         </div>
-        <div class="table-responsive-md">
-            <table class="table">
-                <thead class="thead-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Time</th>
-                        <th>CHG/INC</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Description</th>
-                        <th>Vendor</th>
-                        <th>Remark</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bau in pagination %}
-                    <tr class="
-                        {% if bau.getSite().getId() == 1 %}
-                        table-danger
-                        {% else %}
-                        table-info
-                        {% endif %}
-                    ">
-                        <td>
-                            <a href="{{ path(
-                                'edit_bau',
-                                {'bau':bau.getId()}
-                            ) }}">
-                                {{ bau.getId() }}
-                            </a>
-                        </td>
-                        <td>
-                            From: {{ bau.getStartTime() | date("y/m/d H:i") }}
-                            <br />
-                            To: &nbsp;&nbsp;&nbsp;&nbsp;
-                            {{ bau.getEndTime() | date("y/m/d H:i") }}
-                        </td>
-                        <td>
-                            {{ bau.getChgNumber() }}<br />
-                            {% for task in bau.getTaskInArray() %}
-                                {{ task }} <br />
-                            {% endfor %}
-                            {% for inc in bau.getIncInArray() %}
-                                {{ inc }} <br />
-                            {% endfor %}
-                        </a>
-                        </td>
-                        <td>
-                            {{ bau.getType() }}
-                        </td>
-                        <td> {{ bau.getStatus() }} </td>
-                        <td> {{ bau.getDescription() }} </td>
-                        <td> {{ bau.getVendor() }} </td>
-                        <td> {{ bau.getRemark() }} </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% include "bau/table.html.twig" %}
         {# display navigation #}
         <div class="navigation">
-            {{ knp_pagination_render(pagination) }}
+            {{ knp_pagination_render(bauPagination) }}
         </div>
     </div>
 {% endblock %}

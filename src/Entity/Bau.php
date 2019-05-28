@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Constants\BauTypeOptions;
+use App\Constants\BauStatusOptions;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -55,7 +56,7 @@ class Bau
      * @var string
      * new/completed/
      *
-     * @ORM\Column(type="string", length=20, options={"default" = "new"})
+     * @ORM\Column(type="string", length=20, options={"default" = "pending"})
      *
      */
     private $status;
@@ -282,8 +283,13 @@ class Bau
         return $this;
     }
 
-    // public function getTypeForFront(): ?string
-    // {
-    //     return BauTypeOptions
-    // }
+    public function getTypeForFront(): ?string
+    {
+        return BauTypeOptions::getText($this->type);
+    }
+
+    public function getStatusForFront(): ?string
+    {
+        return BauStatusOptions::getText($this->status);
+    }
 }

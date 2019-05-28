@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Receiving;
+use App\Constants\BauStatusOptions;
 use App\Controller\Traits\HasRepositories;
 
 class IndexController extends Controller
@@ -22,10 +23,13 @@ class IndexController extends Controller
      */
     public function index()
     {
+        $baus = $this->getBauRepository()->findForHome();
         $receivings = $this->getReceivingRepository()->findByStatus('new');
 
         return $this->render('index/index.html.twig', array(
-            'receivings' => $receivings,
+            'receivingPagination' => $receivings,
+            'bauPagination' => $baus,
+            'bauStatusOptions' => BauStatusOptions::getOptions(),
             'navbar' => 'home'
         ));
     }

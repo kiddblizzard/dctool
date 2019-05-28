@@ -60,4 +60,16 @@ class BauRepository extends ServiceEntityRepository
 
         return $query->getQuery();
     }
+
+    public function findForHome()
+    {
+        $query = $this->createQueryBuilder('t');
+        $query->where('t.status = ?1')
+            ->orWhere('t.status = ?2')
+            ->orderBy('t.start_time', 'ASC')
+            ->setParameter('1', 'pending')
+            ->setParameter('2', 'deployment');
+
+        return $query->getQuery()->getResult();
+    }
 }

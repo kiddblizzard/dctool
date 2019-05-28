@@ -28,3 +28,7 @@ body {
 .left-nav {
     padding: 0;
 }
+
+.bau-time-td {
+    width: 180px;
+}

@@ -30,4 +30,13 @@ class BauTypeOptions
     {
         return self::$bauTypeOptions;
     }
+
+    public static function getText($option)
+    {
+        foreach (self::$bauTypeOptions as $key => $val) {
+            if ($val == $option) {
+                return $key;
+            }
+        }
+    }
 }

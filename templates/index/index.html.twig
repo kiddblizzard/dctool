@@ -2,85 +2,13 @@
 {% block body %}
     {% include "nav/nav.twig" %}
     <div class="container-fluid">
-        {% if receivings|length > 0 %}
+        {% if receivingPagination|length > 0 %}
             Transportation
-            <div class="table-responsive-md">
-                <table class="table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Due Date</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Delivery Info</th>
-                            <th>CT Access</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for receiving in receivings %}
-                        <tr class="
-                                {% if receiving.getType() == "device_roll_in" %}
-                                table-danger
-                                {% elseif receiving.getType() == "device_roll_out" %}
-                                table-info
-                                {% endif %}
-                                list_receiving
-                            "
-                            data-id = "{{ receiving.getId() }}"
-                        >
-                            <td>
-                                <a href="
-                                    {{ path(
-                                        'edit_receiving',
-                                        {'receiving':receiving.getId()}
-                                    ) }}
-                                ">
-                                    {{ receiving.getPlannedDate() | date("m/d/y ") }}
-                                </a>
-                            </td>
-                            <td>
-                                {{ receiving.showTypeInText() }}
-                            </td>
-                            <td>{{ receiving.getDetail() }} </td>
-                            <td>{{ receiving.getDeliveryInfo() }} </td>
-                            <td>
-                                <select class="list_receiving_access">
-                                    <option
-                                        value=1
-                                        {% if receiving.getAccess() %}
-                                            selected = selected
-                                        {% endif %}
-                                    >Yes</option>
-                                    <option
-                                        value=0
-                                        {% if receiving.getAccess()==false %}
-                                            selected = selected
-                                        {% endif %}
-                                    >No</option>
-
-                                </select>
-                            </td>
-                            <td>
-                                <select class="list_receiving_status">
-                                    <option
-                                        value="new"
-                                        {% if receiving.getStatus()=="new" %}
-                                            selected = selected
-                                        {% endif %}
-                                    >New</option>
-                                    <option
-                                        value="done"
-                                        {% if receiving.getStatus()=="done" %}
-                                            selected = selected
-                                        {% endif %}
-                                    >Done</option>
-                                </select>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            {% include "receiving/table.html.twig" %}
+        {% endif %}
+        {% if bauPagination|length > 0 %}
+            BAU
+            {% include "bau/table.html.twig" %}
         {% endif %}
     </div>
 {% endblock %}

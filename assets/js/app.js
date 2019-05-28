@@ -154,3 +154,24 @@ $(function () {
           });
       })
 });
+
+$(function () {
+      $(".list_bau_status").on('change', function() {
+
+          var id = $(this).parents("tr").data("id");
+          var jsonstr = {"id": id, "status": $(this).val()};
+          $.ajax({
+              url: "/ajax/bau/"+ id +"/status",
+              dataType: "json",
+              type: "PUT",
+              contentType:"application/json",
+              data:JSON.stringify(jsonstr),
+              success:function (result) {
+
+              },
+              error: function (result) {
+                  consolse.log(id + " status change failed");
+              }
+          });
+      })
+});
