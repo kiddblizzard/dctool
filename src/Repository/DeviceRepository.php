@@ -56,7 +56,7 @@ class DeviceRepository extends ServiceEntityRepository
         }
         $query->andWhere('d.rack = :rack')
             ->setParameter('rack', $rack)
-            ->orderBy('d.id', 'DESC');
+            ->orderBy('d.unit');
 
         return $query->getQuery();
     }

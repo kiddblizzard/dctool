@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Entity\Receiving;
+use App\Entity\Site;
 use App\Controller\Traits\HasRepositories;
 
 class ReceivingController extends Controller
@@ -124,13 +126,17 @@ class ReceivingController extends Controller
             ])
             ->add('detail', TextType::class)
             ->add('delivery_info', TextType::class, ['required' => false])
-            ->add('planned_date', DateType::class)
+            ->add('planned_date', DateType::class, ['widget' => 'single_text'])
             ->add('status', HiddenType::class)
             ->add('access', ChoiceType::class, [
                 'choices'  => [
                     'Yes' => true,
                     'No' => false,
                 ],
+            ])
+            ->add('site', EntityType::class, [
+                'class' => Site::class,
+                'choice_label' => 'name',
             ])
             ->add('save', SubmitType::class, array('label' => 'Submit'))
             ->getForm();

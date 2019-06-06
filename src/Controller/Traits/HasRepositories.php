@@ -8,12 +8,13 @@ use App\Entity\Bau;
 use App\Entity\Device;
 use App\Entity\Part;
 use App\Entity\Rack;
+use App\Entity\Site;
 use App\Entity\Model;
 use App\Entity\Receiving;
 use App\Entity\PowerSource;
 
 trait HasRepositories
-{
+{    
     /**
      * [getManufacturerRepository description]
      * @return [type] [description]
@@ -86,6 +87,15 @@ trait HasRepositories
     private function getPowerSourceRepository () {
         return $this->getDoctrine()->getRepository(PowerSource::class);
     }
+
+    /**
+     * [getSiteRepository description]
+     * @return [type] [description]
+     */
+    private function getSiteRepository () {
+        return $this->getDoctrine()->getRepository(Site::class);
+    }
+
 
     private function save($entity)
     {

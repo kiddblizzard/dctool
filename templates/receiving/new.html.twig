@@ -7,12 +7,12 @@
         <div class="form-group">
             {{ form_label(form.planned_date) }}
             {{ form_errors(form.planned_date) }}
-            {{ form_widget(form.planned_date) }}
+            {{ form_widget(form.planned_date, {'attr': {class: 'form-control'} }) }}
         </div>
         <div class="form-group">
             {{ form_label(form.type) }}
             {{ form_errors(form.type) }}
-            {{ form_widget(form.type) }}
+            {{ form_widget(form.type, {'attr': {class: 'form-control'} }) }}
         </div>
         <div class="form-group">
             {{ form_label(form.detail) }}
@@ -29,7 +29,11 @@
             {{ form_errors(form.access) }}
             {{ form_widget(form.access, {'attr': {class: 'form-control'} }) }}
         </div>
-
+        <div class="form-group">
+            {{ form_label(form.site) }}
+            {{ form_errors(form.site) }}
+            {{ form_widget(form.site, {'attr': {class: 'form-control'} }) }}
+        </div>
         <a
             class="btn btn-warning"
             href="{{ path('receivings') }}"

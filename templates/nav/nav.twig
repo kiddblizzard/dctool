@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">DCtool</a>
+    {{ render(controller('App\\Controller\\NavigatorController::navSites')) }}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -20,14 +21,12 @@
             <li class="nav-item {% if navbar == 'parts' %} active {% endif %}">
                 <a class="nav-link" href="/parts">Spare</a>
             </li>
-            <li class="nav-item {% if navbar == 'location' %} active {% endif %}">
+            <!-- <li class="nav-item {% if navbar == 'location' %} active {% endif %}">
                 <a class="nav-link" href="/locations">Location</a>
-            </li>
-
+            </li> -->
             <li class="nav-item {% if navbar == 'models' %} active {% endif %}">
                 <a class="nav-link" href="/models">Model</a>
             </li>
-
             <li class="nav-item {% if navbar == 'manufacturer' %} active {% endif %}">
                 <a class="nav-link" href="/manufacturers">Manufacturer</a>
             </li>

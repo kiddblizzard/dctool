@@ -60,4 +60,17 @@ class ReceivingRepository extends ServiceEntityRepository
 
         return $query->getQuery();
     }
+
+    public function findForHome($site)
+    {
+        $query = $this->createQueryBuilder('r');
+        $query->where('r.status = :status')
+            ->andWhere('r.site = :site')
+            ->setParameter('status', 'new')
+            ->setParameter('site', $site);
+
+        $query->orderBy('r.planned_date', 'ASC');
+
+        return $query->getQuery()->getResult();
+    }
 }

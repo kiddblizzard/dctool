@@ -1,0 +1,11 @@
+<select class="nav_site">
+    {% for one in sites %}
+        <option value="{{one.getId()}}"
+        {% if  one.getId() == sessionSite%}
+            selected
+        {% endif %}
+        >
+            {{ one.getName() }}--{{ one.getLabel() }}
+        </option>
+    {% endfor %}
+</select>

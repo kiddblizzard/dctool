@@ -23,7 +23,7 @@ class Bau
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=20, nullable=true)
+     * @ORM\Column(type="string", length=20, nullable=true, unique=true)
      *
      */
     private $chg_number;
@@ -93,7 +93,7 @@ class Bau
      */
     private $cmp;
 
-     /**
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="baus")
      * @ORM\JoinColumn(nullable=true)
      */

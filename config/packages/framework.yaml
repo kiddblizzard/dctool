@@ -11,7 +11,10 @@ framework:
 
     #esi: ~
     #fragments: ~
-    session: ~
+    session:
+        enabled: true
+        handler_id: 'session.handler.native_file'
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
     csrf_protection: true
     php_errors:
         log: true

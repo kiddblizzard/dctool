@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -36,6 +38,11 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $sites = [];
 
     /**
      * @var string The hashed password
@@ -130,6 +137,22 @@ class User implements UserInterface
     public function setUuid(string $uuid): self
     {
         $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    public function getSites(): ?array
+    {
+        $sites = $this->sites;
+
+        $sites[] = 1;
+
+        return array_unique($sites);
+    }
+
+    public function setSites(array $sites): self
+    {
+        $this->sites = $sites;
 
         return $this;
     }
