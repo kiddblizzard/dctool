@@ -2,6 +2,7 @@ const $ = require('jquery');
 require('../css/app.scss');
 require('bootstrap');
 require('blueimp-file-upload');
+// require('bootstrap-datepicker');
 
 $(function () {
     $('#models_excel').fileupload({
@@ -114,64 +115,89 @@ $(function () {
 
 
 $(function () {
-      $(".list_receiving_access").on('change', function() {
+    $(".list_receiving_access").on('change', function() {
 
-          var id = $(this).parents("tr").data("id");
-          var jsonstr = {"id": id, "access": $(this).val()};
-          $.ajax({
-              url: "/ajax/receiving/"+ id +"/access",
-              dataType: "json",
-              type: "PUT",
-              contentType:"application/json",
-              data:JSON.stringify(jsonstr),
-              success:function (result) {
-
-              },
-              error: function (result) {
-                  consolse.log(id + " access change failed");
-              }
-          });
-      })
+      var id = $(this).parents("tr").data("id");
+      var jsonstr = {"id": id, "access": $(this).val()};
+      $.ajax({
+          url: "/ajax/receiving/"+ id +"/access",
+          dataType: "json",
+          type: "PUT",
+          contentType:"application/json",
+          data:JSON.stringify(jsonstr),
+          success:function (result) {
+              window.location.reload();
+          },
+          error: function (result) {
+              consolse.log(id + " access change failed");
+          }
+      });
+    })
 });
 
 $(function () {
-      $(".list_receiving_status").on('change', function() {
+    $(".list_receiving_status").on('change', function() {
 
-          var id = $(this).parents("tr").data("id");
-          var jsonstr = {"id": id, "status": $(this).val()};
-          $.ajax({
-              url: "/ajax/receiving/"+ id +"/status",
-              dataType: "json",
-              type: "PUT",
-              contentType:"application/json",
-              data:JSON.stringify(jsonstr),
-              success:function (result) {
-
-              },
-              error: function (result) {
-                  consolse.log(id + " status change failed");
-              }
-          });
-      })
+      var id = $(this).parents("tr").data("id");
+      var jsonstr = {"id": id, "status": $(this).val()};
+      $.ajax({
+          url: "/ajax/receiving/"+ id +"/status",
+          dataType: "json",
+          type: "PUT",
+          contentType:"application/json",
+          data:JSON.stringify(jsonstr),
+          success:function (result) {
+              window.location.reload();
+          },
+          error: function (result) {
+              consolse.log(id + " status change failed");
+          }
+      });
+    })
 });
 
 $(function () {
-      $(".list_bau_status").on('change', function() {
+    $(".list_bau_status").on('change', function() {
 
-          var id = $(this).parents("tr").data("id");
-          var jsonstr = {"id": id, "status": $(this).val()};
-          $.ajax({
-              url: "/ajax/bau/"+ id +"/status",
-              dataType: "json",
-              type: "PUT",
-              contentType:"application/json",
-              data:JSON.stringify(jsonstr),
-              success:function (result) {
+      var id = $(this).parents("tr").data("id");
+      var jsonstr = {"id": id, "status": $(this).val()};
+      $.ajax({
+          url: "/ajax/bau/"+ id +"/status",
+          dataType: "json",
+          type: "PUT",
+          contentType:"application/json",
+          data:JSON.stringify(jsonstr),
+          success:function (result) {
+              window.location.reload();
+          },
+          error: function (result) {
+              consolse.log(id + " status change failed");
+          }
+      });
+    })
+});
 
-              },
-              error: function (result) {
-                  consolse.log(id + " status change failed");
-              }
-          });
-      })
+$(function () {
+    $(".nav_site").on('change', function() {
+
+      var id = $(this).val();
+      var jsonstr = {"site": $(this).val()};
+      $.ajax({
+          url: "/ajax/session/site",
+          dataType: "json",
+          type: "PUT",
+          contentType:"application/json",
+          data:JSON.stringify(jsonstr),
+          success:function (result) {
+              window.location.reload();
+          },
+          error: function (result) {
+              consolse.log(" site change failed");
+          }
+      });
+    })
+});
+
+$(function () {
+    // $('.datetimepicker').datetimepicker();
 });

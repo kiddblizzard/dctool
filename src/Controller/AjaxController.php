@@ -6,6 +6,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
@@ -160,22 +161,32 @@ class AjaxController extends FOSRestController
                             $PSs = $this->getPSEntity($array['power_source']);
                             $devices = $this->getDeviceRepository()
                                 ->findOneBySerialNumberOrNameOrBarcode(
-                                    $array['device_name'],
                                     $array['serial_number'],
+                                    $array['device_name'],
                                     $array['barcode']
                                 );
 
                             if (count($devices)>1) {
                                 $array['status'] = 'Conflict';
                             } else if (count($devices) == 1) {
-                                $this->createOrUpdateDevice(
-                                    $array,
-                                    $model,
-                                    $rack,
-                                    $PSs,
-                                    $devices[0]
-                                );
-                                $array['status'] = 'Updated';
+                                $device = $devices[0];
+
+                                if ($device->getName()==$array['device_name'] &&
+                                    $device->getSerialNumber() == $array['serial_number'] &&
+                                    $device->getBarcodeNumber() == $array['barcode']
+                                ) {
+                                    $this->createOrUpdateDevice(
+                                        $array,
+                                        $model,
+                                        $rack,
+                                        $PSs,
+                                        $devices[0]
+                                    );
+                                    $array['status'] = 'Updated';
+                                } else {
+                                    $array['status'] = 'Conflict';
+                                }
+
                             } else {
                                 $this->createOrUpdateDevice(
                                     $array,
@@ -287,6 +298,21 @@ class AjaxController extends FOSRestController
         $bau->setStatus($status);
         $this->save($bau);
         $this->result['result'] = $status;
+
+        return $this->result;
+    }
+
+    /**
+     * @Put("/ajax/session/site", name="ajax_session_site")
+     * @param  Request $request [description]
+     * @return [type] [description]
+     */
+    public function putSessionSite(Request $request)
+    {
+        $site = $request->request->get('site');
+        $session = new Session();
+        $session->set('site', $site);
+        $this->result['result'] = $site;
 
         return $this->result;
     }

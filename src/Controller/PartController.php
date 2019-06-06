@@ -56,7 +56,7 @@ class PartController extends Controller
     {
         $part = new Part();
 
-        $manufacturers = $this->getManufacturerRepository->findAll();
+        $manufacturers = $this->getManufacturerRepository()->findAll();
 
         $form = $this->getPartForm(
             $part,

@@ -68,6 +68,12 @@ class Receiving
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="baus")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $site;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -159,6 +165,18 @@ class Receiving
         } else {
             return "";
         }
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
     }
 
 }

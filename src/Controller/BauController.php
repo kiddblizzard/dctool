@@ -6,6 +6,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -32,10 +33,12 @@ class BauController extends Controller
      */
     public function getIndexAction(Request $request)
     {
+        $session = new Session();
+        $site = $this->getSiteRepository()->find($session->get('site'));
         $pageNumber = $request->query->get('page', 1);
         $keyWord = $request->query->get('keyWord', null);
 
-        $query = $this->getBauRepository()->findByKeyword($keyWord);
+        $query = $this->getBauRepository()->findByKeyword($keyWord, $site);
 
         $paginator = $this->get('knp_paginator');
 
@@ -67,12 +70,8 @@ class BauController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $bau = $form->getData();
             $bau->setStatus('pending');
-
-
-
-            // ... perform some action, such as saving the bau to the database
-            // for example, if bau is a Doctrine entity, save it!
             $this->saveBau($bau);
+            
             return $this->redirectToRoute('bau');
         }
 
@@ -129,10 +128,10 @@ class BauController extends Controller
                     'choices'  => BauTypeOptions::getBauTypeOptions(),
                 ])
             ->add('description', TextareaType::class)
-            ->add('start_time', DateTimeType::class)
-            ->add('end_time', DateTimeType::class)
-            ->add('vendor', TextType::class)
-            ->add('remark', TextareaType::class)
+            ->add('start_time', DateTimeType::class, ['widget'=>'single_text'])
+            ->add('end_time', DateTimeType::class, ['widget'=>'single_text'])
+            ->add('vendor', TextType::class, ['required' => false])
+            ->add('remark', TextareaType::class, ['required' => false])
             ->add('cmp', ChoiceType::class, [
                 'choices'  => [
                     'Yes' => true,
@@ -140,8 +139,8 @@ class BauController extends Controller
                 ],
                 'label' => 'CMP',
             ])
-            ->add('inc_array', TextType::class, array('label' => 'INC'))
-            ->add('task_array', TextType::class, array('label' => 'Task'))
+            ->add('inc_array', TextType::class, ['label' => 'INC', 'required' => false])
+            ->add('task_array', TextType::class, ['label' => 'Task', 'required' => false])
             ->add('status', ChoiceType::class, [
                     'choices'  => BauStatusOptions::getOptions(),
                 ])

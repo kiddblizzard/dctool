@@ -114,7 +114,7 @@ class ModelController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $item = $form->getData();
-            $this->savePart($item);
+            $this->saveModel($item);
 
             return $this->redirectToRoute('models');
         }

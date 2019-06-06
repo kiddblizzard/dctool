@@ -48,27 +48,36 @@ class BauRepository extends ServiceEntityRepository
     }
     */
 
-    public function findByKeyword($keyWord = null)
+    /**
+    **/
+    public function findByKeyword($keyWord = null, $site)
     {
-        $query = $this->createQueryBuilder('t');
+        $query = $this->createQueryBuilder('b');
 
         if (!is_null($keyWord) && !empty($keyWord)) {
-            $query->where($query->expr()->like('t.description', '?1'))
+            $query->where($query->expr()->like('b.description', '?1'))
                 ->setParameter('1', '%'.$keyWord.'%');
         }
-        $query->orderBy('t.start_time', 'ASC');
+        $query->andWhere('b.site = :site')
+            ->setParameter('site', $site)
+            ->orderBy('b.start_time', 'ASC');
 
-        return $query->getQuery();
+        return $query->getQuery()->getResult();
     }
 
-    public function findForHome()
+
+    public function findForHome($site)
     {
-        $query = $this->createQueryBuilder('t');
-        $query->where('t.status = ?1')
-            ->orWhere('t.status = ?2')
-            ->orderBy('t.start_time', 'ASC')
+        $query = $this->createQueryBuilder('b');
+        $query->where($query->expr()->orX(
+                'b.status = ?1',
+                'b.status = ?2'
+            ))
+            ->andWhere('b.site = :site')
+            ->orderBy('b.start_time', 'ASC')
             ->setParameter('1', 'pending')
-            ->setParameter('2', 'deployment');
+            ->setParameter('2', 'deployment')
+            ->setParameter('site', $site);
 
         return $query->getQuery()->getResult();
     }

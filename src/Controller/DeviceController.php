@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -32,9 +33,10 @@ class DeviceController extends Controller
      */
     public function listAction(Request $request)
     {
+        $session = new Session();
+        $site = $this->getSiteRepository()->find($session->get('site'));
         $pageNumber = $request->query->get('page', 1);
         $keyWord = $request->query->get('keyWord', null);
-
 
         $query = $this->getDeviceRepository()->findByKeyword($keyWord);
 
@@ -141,7 +143,7 @@ class DeviceController extends Controller
             )
         );
 
-        $manufacturers = $this->getManufacturerRepository->findAll();
+        $manufacturers = $this->getManufacturerRepository()->findAll();
 
         $form->handleRequest($request);
 
@@ -240,8 +242,6 @@ class DeviceController extends Controller
                         $this->saveEntity($modelEntity);
                     }
 
-                    var_dump($modelEntity);
-
                     $device = New Device();
                     $device->setRack($rackEntity);
                     $device->setName($name);
@@ -288,6 +288,10 @@ class DeviceController extends Controller
             ->add('barcode_number', TextType::class, ['required' => false])
             ->add('po', TextType::class, ['required' => false])
             ->add('rack', TextType::class, ['required' => false])
+            ->add('rack', EntityType::class, [
+                'class' => Rack::class,
+                'choice_label' => 'name',
+            ])
             ->add('unit', TextType::class, ['required' => false])
             ->add('status', ChoiceType::class, [
                 'choices'  => [
