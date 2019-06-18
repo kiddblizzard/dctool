@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use App\Entity\Rack;
@@ -56,41 +57,7 @@ class DeviceController extends Controller
             'devices' => $pagination,
             'keyWord' => $keyWord,
             'navbar' => 'device',
-            'form' => $form->createView()
-        ));
-    }
-
-    /**
-     * show the list of devices by rack
-     * @Route("/racks/{rack}/devices", name="rack_devices")
-     * @param  Request $request [description]
-     * @param  Rack $rack
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function listDeviceByRack(Request $request, Rack $rack)
-    {
-        $pageNumber = $request->query->get('page', 1);
-        $keyWord = $request->query->get('keyWord', null);
-
-        $query = $this->getDeviceRepository()
-            ->findByRackAndKeyword($rack, $keyWord);
-
-        $paginator = $this->get('knp_paginator');
-
-        $pagination = $paginator->paginate(
-            $query,
-            $pageNumber,
-            10
-        );
-
-        $form = $this->getDeviceExcelForm(
-            $this->generateUrl('ajax_device_upload_excel')
-        );
-
-        return $this->render('device/list.html.twig', array(
-            'devices' => $pagination,
-            'keyWord' => $keyWord,
-            'navbar' => 'device',
+            'currentRack' => null,
             'form' => $form->createView()
         ));
     }
@@ -292,11 +259,12 @@ class DeviceController extends Controller
                 'class' => Rack::class,
                 'choice_label' => 'name',
             ])
-            ->add('unit', TextType::class, ['required' => false])
+            ->add('unit', IntegerType::class, ['required' => false])
             ->add('status', ChoiceType::class, [
                 'choices'  => [
                     'In Depository' => 'in_depository',
                     'Running' => 'running',
+                    'Isolated' => 'isolated',
                     'Decommission' => 'decommission'
                 ],
             ])

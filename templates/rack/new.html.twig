@@ -1,0 +1,74 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+        <!-- <div class="form-group">
+            <label class="required">Manufacturer</label>
+            <select id="device_manufacturer_select">
+                {% for item in manufacturers %}
+                <option value="{{ item.getId() }}">
+                    {{ item.getName() }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="required">Type</label>
+            <select id="">
+                <option>select</option>
+            </select>
+        </div> -->
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.model) }}
+                {{ form_errors(form.model) }}
+                {{ form_widget(form.model, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.serialNumber) }}
+                {{ form_errors(form.serialNumber) }}
+                {{ form_widget(form.serialNumber, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.name) }}
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.barcode_number) }}
+                {{ form_errors(form.barcode_number) }}
+                {{ form_widget(form.barcode_number, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.po) }}
+                {{ form_errors(form.po) }}
+                {{ form_widget(form.po, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.rack) }}
+                {{ form_errors(form.rack) }}
+                {{ form_widget(form.rack, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.unit) }}
+                {{ form_errors(form.unit) }}
+                {{ form_widget(form.unit, {'attr': {class: 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.status) }}
+                {{ form_errors(form.status) }}
+                {{ form_widget(form.status, {'attr': {class: 'form-control'} }) }}
+            </div>
+
+            <a
+                class="btn btn-warning"
+                href="{{ path('devices') }}"
+            >
+                Cancel
+            </a>
+
+            {{ form_widget(form.save, {'attr':{class:'btn btn-primary float-right'}}) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

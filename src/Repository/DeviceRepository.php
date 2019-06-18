@@ -79,4 +79,40 @@ class DeviceRepository extends ServiceEntityRepository
 
         return $a;
     }
+
+    public function findByRackByUnit($rack, $unit)
+    {
+        $query = $this->createQueryBuilder('d');
+        $query->leftJoin('d.model',  'm');
+        $query->Where('d.rack = :rack')
+            ->andWhere('d.unit + m.height - 1 = :unit')
+            ->andWhere($query->expr()->orX(
+                    'd.status = ?1',
+                    'd.status = ?2'
+            ))
+            ->setParameter('rack', $rack)
+            ->setParameter('unit', $unit)
+            ->setParameter('1', 'isolated')
+            ->setParameter('2', 'running');
+
+        return $query->getQuery()->getOneOrNullResult();
+    }
+
+    public function findByRackByTopUnit($rack, $unit)
+    {
+        $query = $this->createQueryBuilder('d');
+        $query->leftJoin('d.model',  'm');
+        $query->Where('d.rack = :rack')
+            ->andWhere('d.unit - m.height + 1 = :unit')
+            ->andWhere($query->expr()->orX(
+                    'd.status = ?1',
+                    'd.status = ?2'
+            ))
+            ->setParameter('rack', $rack)
+            ->setParameter('unit', $unit)
+            ->setParameter('1', 'isolated')
+            ->setParameter('2', 'running');
+
+        return $query->getQuery()->getOneOrNullResult();
+    }
 }
