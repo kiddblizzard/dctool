@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "nav/nav.twig" %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-auto left-nav" >
+                {{ render(controller('App\\Controller\\NavigatorController::navRacks', {rack: rack.getId()})) }}
+            </div>
+            <div class="col-md">
+
+                <div class="table-responsive-md rack-bg">
+                    <table class="table rack">
+                        <thead class="thead">
+                            <tr>
+                                <th class="rack-header" colspan=2>
+                                    {{ rack.getName() }}
+                                </th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            {% for i in 42..1 %}
+                            <tr>
+                                <td>
+                                    {{ i }}
+                                </td>
+
+                                {% if units[i] is not defined %}
+
+
+                                {% elseif units[i] is not null %}
+                                    {% set device = units[i] %}
+                                <td class="rack-unit" rowspan={{ device.getModel().getHeight() }}>
+
+                                    <a href="
+                                    {{ path(
+                                        'edit_device',
+                                        {'device':device.getId()}
+                                    ) }}
+                                ">
+                                    {{ device.getName() }}
+                                </a><br />
+                                {{ device.getSerialNumber() }}&nbsp;&nbsp;&nbsp;&nbsp;
+                                {{ device.getBarcodeNumber() }}
+
+                                </td>
+                                {% elseif units[i] is null %}
+                                    <td></td>
+                                {% endif %}
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

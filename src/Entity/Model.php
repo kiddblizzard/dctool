@@ -41,6 +41,14 @@ class Model
     private $type;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="integer", nullable=true, options={"default" = 1})
+     *
+     */
+    private $height;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -107,4 +115,15 @@ class Model
         return $this->manufacturer->getName();
     }
 
+    public function getHeight(): ?int
+    {
+        return $this->height;
+    }
+
+    public function setHeight(?int $height): self
+    {
+        $this->height = $height;
+
+        return $this;
+    }
 }

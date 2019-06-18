@@ -87,7 +87,7 @@ class Device
     /**
      * @var string
      *
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      *
      */
     private $unit;
@@ -299,6 +299,19 @@ class Device
     private $status;
 
     /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Device", inversedBy="children")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $parent;
+
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Device", mappedBy="parent")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $children;
+
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -309,6 +322,7 @@ class Device
     public function __construct()
     {
         $this->power_sources = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**
@@ -793,5 +807,53 @@ class Device
         }
 
         return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Device[]
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    public function addChild(Device $child): self
+    {
+        if (!$this->children->contains($child)) {
+            $this->children[] = $child;
+            $child->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(Device $child): self
+    {
+        if ($this->children->contains($child)) {
+            $this->children->removeElement($child);
+            // set the owning side to null (unless already changed)
+            if ($child->getParent() === $this) {
+                $child->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUnitFrom(): intval
+    {
+        return $this->unit - $this->getModel()->getHeight();
     }
 }

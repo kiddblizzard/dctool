@@ -16,16 +16,17 @@ class NavigatorController extends Controller
 
     /**
      * show the left nav of devices
-     * @Route("/nav/racks", name="nav_racks")
+     * @Route("/nav/racks/{rack}", name="nav_racks")
      * @param  Request $request [description]
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function navRacks(Request $request)
+    public function navRacks(Request $request, Rack $rack = null)
     {
         $racks = $this->getRackRepository()->findAll();
 
         return $this->render('nav/racks.html.twig', array(
             'racks' => $racks,
+            'currentRack' => $rack
         ));
     }
 

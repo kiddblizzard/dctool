@@ -1,6 +1,11 @@
 <ul class="nav flex-column navbar-dark bg-dark">
     {% for rack in racks %}
-    <li class="nav-item">
+    <li class="
+        nav-item
+        {% if currentRack != null and rack.getId() == currentRack.getId() %}
+        active
+        {% endif %}
+        ">
         <a class="nav-link" href="/racks/{{rack.getId()}}/devices">
             {{ rack.getName() }}
         </a>

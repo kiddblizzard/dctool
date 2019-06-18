@@ -1,0 +1,15 @@
+
+    <td class="rack-unit" rowspan=2>
+    {% if device %}
+        <a href="
+        {{ path(
+            'edit_device',
+            {'device':device.getId()}
+        ) }}
+    ">
+        {{ device.getName() }}
+    </a><br />
+    {{ device.getSerialNumber() }}&nbsp;&nbsp;&nbsp;&nbsp;
+    {{ device.getBarcodeNumber() }}
+    {% endif %}
+    </td>
