@@ -1,0 +1,27 @@
+<div class="table-responsive-md">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Band</th>
+                <th>Model</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in models %}
+            <tr>
+                <td class=""> {{ item.getManufacturer() }} </td>
+                <td>
+                    <a href="
+                        {{ path(
+                            'edit_model',
+                            {'model':item.getId()}
+                        ) }}
+                    ">
+                        {{ item.getModel() }}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<div>

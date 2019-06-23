@@ -1,78 +1,46 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {% include "nav/nav.twig" %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm">
-                <form method="GET" class="form-inline my-2 my-lg-0 d-block search-bar">
-                    <div class="input-group mb-3 ">
-                        <input
-                            type="search"
-                            class="form-control"
-                            placeholder="Key Word"
-                            aria-label="Key Word"
-                            name="keyWord"
-                            value="{{ keyWord }}"
+    <div class="row">
+        <div class="col-sm">
+            <form method="GET" class="form-inline my-2 my-lg-0 d-block search-bar">
+                <div class="input-group mb-3 ">
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="Key Word"
+                        aria-label="Key Word"
+                        name="keyWord"
+                        value="{{ keyWord }}"
+                    >
+                    <div class="input-group-append">
+                        <button
+                            class="btn btn-outline-secondary"
+                            type="submit"
                         >
-                        <div class="input-group-append">
-                            <button
-                                class="btn btn-outline-secondary"
-                                type="submit"
-                            >
-                                Search
-                            </button>
-                        </div>
-                        <div class="input-group-append">
-                            <a
-                                class="btn btn-outline-secondary"
-                                href="{{ path('parts') }}"
-                            >
-                                Clear
-                            </a>
-                        </div>
+                            Search
+                        </button>
                     </div>
-                </form>
-            </div>
-            <div class="col-sm mb-3">
-                <a
-                    class="btn btn-primary float-md-right float-sm-left"
-                    href="{{ path('new_part') }}"
-                >
-                    New Part
-                </a>
-            </div>
+                    <div class="input-group-append">
+                        <a
+                            class="btn btn-outline-secondary"
+                            href="{{ path('parts') }}"
+                        >
+                            Clear
+                        </a>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="table-responsive-md">
-            <table class="table">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Band</th>
-                        <th>Model</th>
-                        <th>Quantity</th>
-                        <th>Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in parts %}
-                    <tr>
-                        <td class=""> {{ item.getModel().getManufacturer() }} </td>
-                        <td>
-                            <a href="
-                                {{ path(
-                                    'edit_part',
-                                    {'part':item.getId()}
-                                ) }}
-                            ">
-                                {{ item.getModel().getModel() }}
-                            </a>
-                        </td>
-                        <td> {{ item.getAmount() }} </td>
-                        <td> {{ item.getLocation() }} </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        <div>
+        <div class="col-sm mb-3">
+            <a
+                class="btn btn-primary float-md-right float-sm-left"
+                href="{{ path('new_part') }}"
+            >
+                New Part
+            </a>
+        </div>
     </div>
-
+    <div class="row">
+        {% include "part/table.html.twig" %}
+    </div>
 {% endblock %}

@@ -1,45 +1,49 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {% include "nav/nav.twig" %}
-    <div class="container-fluid">
-        <div>
+    <div class="row">
+        <div class="col-sm">
             <form method="GET" class="form-inline my-2 my-lg-0">
-                <input
-                    class="form-control mr-sm-2"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                    name="keyWord"
-                    value="{{ keyWord }}"
-                >
-                <button
-                    class="btn btn-outline-success my-2 my-sm-0"
-                    type="submit"
-                >
-                    Search
-                </button>
+                <div class="input-group mb-3 ">
+                    <input
+                        class="form-control"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                        name="keyWord"
+                        value="{{ keyWord }}"
+                    >
+                    <div class="input-group-append">
+                        <button
+                            class="btn btn-outline-success my-2 my-sm-0"
+                            type="submit"
+                        >
+                            Search
+                        </button>
+                    </div>
+                </div>
             </form>
+        </div>
+        <div class="col-sm">
             <a
-                class="btn btn-primary"
+                class="btn btn-primary float-md-right float-sm-left"
                 href="{{ path('new_location') }}"
             >
                 New Location
             </a>
         </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Location</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in parts %}
-                <tr>
-                    <td> {{ item.getLocation() }} </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
-
+    <h5>Location</h5>
+    <div class="row">
+        <div class="table-responsive-md">
+            <table class="table">
+                <tbody>
+                    {% for item in parts %}
+                    <tr>
+                        <td> {{ item.getLocation() }} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

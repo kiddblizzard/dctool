@@ -1,14 +1,30 @@
-<ul class="nav flex-column navbar-dark bg-dark">
+<select
+    class="d-block d-md-none rack-select"
+>
     {% for rack in racks %}
-    <li class="
-        nav-item
-        {% if currentRack != null and rack.getId() == currentRack.getId() %}
-        active
-        {% endif %}
-        ">
-        <a class="nav-link" href="/racks/{{rack.getId()}}/devices">
+        <option
+            value="{{rack.getId()}}"
+            {% if currentRack != null and rack.getId() == currentRack.getId() %}
+            selected
+            {% endif %}
+        >
             {{ rack.getName() }}
-        </a>
-    </li>
+        </option>
     {% endfor %}
-</ul>
+</select>
+<div class="d-none d-sm-none d-md-block" id="racksNav" >
+    <ul class="nav flex-column navbar-dark">
+        {% for rack in racks %}
+        <li class="
+            nav-item
+            {% if currentRack != null and rack.getId() == currentRack.getId() %}
+            active
+            {% endif %}
+            ">
+            <a class="nav-link" href="/racks/{{rack.getId()}}/devices">
+                {{ rack.getName() }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

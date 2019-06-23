@@ -1,3 +1,7 @@
+html, body, .body, .main{
+    height: 100%;
+}
+
 body {
     background-color: lightgray;
 }
@@ -10,6 +14,11 @@ body {
     .search-bar {
         width: 50%;
     }
+}
+
+.form {
+    margin: 0 auto;
+    width: 95%;
 }
 
 .bar {
@@ -33,10 +42,14 @@ body {
     width: 190px;
 }
 
+.rack-row {
+    height: 100%;
+}
+
 .rack {
     border: 1px solid black;
     width: 300px;
-    margin: 0 auto;
+    margin: 30px auto;
 }
 
 .rack .rack-header {
@@ -56,4 +69,12 @@ body {
     border: 1px solid;
     padding: 0;
     text-align: center;
+}
+
+.rack .rack-index {
+    width: 32px;
+}
+
+.body > .row > .table-responsive-md {
+    width: 100%;
 }

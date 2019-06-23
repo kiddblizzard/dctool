@@ -1,14 +1,15 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {% include "nav/nav.twig" %}
-    <div class="container-fluid">
-        {% if receivingPagination|length > 0 %}
-            Transportation
+    {% if receivingPagination|length > 0 %}
+        <h5>Transportation</h5>
+        <div class="row">
             {% include "receiving/table.html.twig" %}
-        {% endif %}
-        {% if bauPagination|length > 0 %}
-            BAU
+        </div>
+    {% endif %}
+    {% if bauPagination|length > 0 %}
+        <h5>BAU</h5>
+        <div class="row">
             {% include "bau/table.html.twig" %}
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 {% endblock %}

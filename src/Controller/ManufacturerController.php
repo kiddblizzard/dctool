@@ -42,7 +42,7 @@ class ManufacturerController extends Controller
         return $this->render('manufacturer/list.html.twig', array(
             'manufacturers' => $pagination,
             'keyWord' => $keyWord,
-            'navbar' => 'model'
+            'navbar' => 'manufacturer'
         ));
     }
 
@@ -55,7 +55,7 @@ class ManufacturerController extends Controller
     {
         $manufacturer = new Manufacturer();
 
-        $manufacturers = $this->getManufacturerRepository->findAll();
+        $manufacturers = $this->getManufacturerRepository()->findAll();
 
         $form = $this->getManufacturerForm(
             $manufacturer,
@@ -74,7 +74,7 @@ class ManufacturerController extends Controller
         return $this->render('manufacturer/new.html.twig', array(
             'manufacturers' => $manufacturers,
             'form' => $form->createView(),
-            'navbar' => 'model'
+            'navbar' => 'manufacturer'
         ));
     }
 
