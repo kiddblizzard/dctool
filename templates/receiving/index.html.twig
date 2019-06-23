@@ -1,8 +1,5 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {% include "nav/nav.twig" %}
-    <div class="container-fluid">
-
         <div class="row">
             <div class="col-sm">
                 <form method="GET" class="form-inline my-2 my-lg-0 d-block search-bar">
@@ -43,10 +40,11 @@
                 </a>
             </div>
         </div>
-        {% include "receiving/table.html.twig" %}
-        {# display navigation #}
-        <div class="navigation">
-            {{ knp_pagination_render(receivingPagination) }}
+        <div class="row">
+            {% include "receiving/table.html.twig" %}
+            {# display navigation #}
+            <div class="navigation">
+                {{ knp_pagination_render(receivingPagination) }}
+            </div>
         </div>
-    </div>
 {% endblock %}

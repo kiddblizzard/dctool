@@ -1,16 +1,13 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {% include "nav/nav.twig" %}
-    <div class="container-fluid">
-        <form method="POST">
-            {{ form_start(form) }}
-            <div class="form-group">
-                {{ form_label(form.location) }}
-                {{ form_errors(form.location) }}
-                {{ form_widget(form.location, {'attr': {class: 'form-control'} }) }}
-            </div>
-            {{ form_widget(form.save, {'attr':{class:'btn btn-primary'}}) }}
-            {{ form_end(form) }}
-        </form>
+    <div class="row">
+        {{ form_start(form, {'attr': {class: 'form'}}) }}
+        <div class="form-group">
+            {{ form_label(form.location) }}
+            {{ form_errors(form.location) }}
+            {{ form_widget(form.location, {'attr': {class: 'form-control'} }) }}
+        </div>
+        {{ form_widget(form.save, {'attr':{class:'btn btn-primary'}}) }}
+        {{ form_end(form) }}
     </div>
 {% endblock %}

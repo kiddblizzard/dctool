@@ -199,5 +199,8 @@ $(function () {
 });
 
 $(function () {
+    $(".rack-select").on('change', function() {
+        window.location = '/racks/' + $(this).val() + '/devices';
+    });
     // $('.datetimepicker').datetimepicker();
 });

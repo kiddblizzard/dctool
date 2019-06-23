@@ -1,0 +1,41 @@
+<div class="table-responsive-md">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>SN</th>
+                <th>Barcode</th>
+                <th>Rack</th>
+                <th>Unit</th>
+                <th>Band</th>
+                <th>Model</th>
+                <th>PO</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in devices %}
+            <tr>
+                <td>
+                    <a href="
+                        {{ path(
+                            'edit_device',
+                            {'device':item.getId()}
+                        ) }}
+                    ">
+                        {{ item.getName() }}
+                    </a>
+                </td>
+                <td> {{ item.getSerialNumber() }} </td>
+                <td> {{ item.getBarcodeNumber() }} </td>
+                <td> {{ item.getRack().getName() }}</td>
+                <td> {{ item.getUnit() }}</td>
+                <td> {{ item.getModel().getManufacturer().getName() }} </td>
+                <td> {{ item.getModel().getModel() }} </td>
+                <td> {{ item.getPo() }} </td>
+                <td> {{ item.getStatus() }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

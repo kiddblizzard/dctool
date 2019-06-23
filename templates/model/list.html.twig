@@ -1,129 +1,57 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    {% include "nav/nav.twig" %}
-    <div class="container-fluid">
-        <!-- Modal -->
-        <div
-            class="modal fade"
-            id="uploadModal"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="uploadModalTitle"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    {{ form_start(form) }}
-                    <div class="modal-header">
-                        <h5
-                            class="modal-title"
-                            id="uploadModalTitle"
-                        >
-                            Upload Excel
-                        </h5>
+    {% include "model/modal.html.twig" %}
+    <div class="row">
+        <div class="col-sm">
+            <form method="GET" class="form-inline my-2 my-lg-0 d-block search-bar">
+                <div class="input-group mb-3 ">
+                    <input
+                        type="search"
+                        class="form-control"
+                        placeholder="Key Word"
+                        aria-label="Key Word"
+                        name="keyWord"
+                        value="{{ keyWord }}"
+                    >
+                    <div class="input-group-append">
                         <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
+                            class="btn btn-outline-secondary"
+                            type="submit"
                         >
-                            <span aria-hidden="true">&times;</span>
+                            Search
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <input
-                            type="file"
-                            name="file"
-                            id="models_excel"
-                            class="btn btn-success fileinput-button"
-                            multiple="multiple"
-                        />
-                        <div id="progress">
-                            <div class="bar" style="width: 0%;"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer"></div>
-                    {{ form_end(form) }}
-                </div>
-            </div>
-        </div>
-        <!-- end Modal -->
-        <div class="row">
-            <div class="col-sm">
-                <form method="GET" class="form-inline my-2 my-lg-0 d-block search-bar">
-                    <div class="input-group mb-3 ">
-                        <input
-                            type="search"
-                            class="form-control"
-                            placeholder="Key Word"
-                            aria-label="Key Word"
-                            name="keyWord"
-                            value="{{ keyWord }}"
+                    <div class="input-group-append">
+                        <a
+                            class="btn btn-outline-secondary"
+                            href="{{ path('models') }}"
                         >
-                        <div class="input-group-append">
-                            <button
-                                class="btn btn-outline-secondary"
-                                type="submit"
-                            >
-                                Search
-                            </button>
-                        </div>
-                        <div class="input-group-append">
-                            <a
-                                class="btn btn-outline-secondary"
-                                href="{{ path('models') }}"
-                            >
-                                Clear
-                            </a>
-                        </div>
+                            Clear
+                        </a>
                     </div>
-                </form>
-            </div>
-            <div class="col-sm mb-3">
-                <button
-                    type="button"
-                    class="btn btn-primary float-md-right float-sm-left"
-                    data-toggle="modal"
-                    data-target="#uploadModal"
-                >
-                    Upload Excel
-                </button>
-
-                <a
-                    class="btn btn-primary float-md-right float-sm-left"
-                    href="{{ path('new_model') }}"
-                >
-                    New Model
-                </a>
-            </div>
+                </div>
+            </form>
         </div>
-        <div class="table-responsive-md">
-            <table class="table">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Band</th>
-                        <th>Model</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in models %}
-                    <tr>
-                        <td class=""> {{ item.getManufacturer() }} </td>
-                        <td>
-                            <a href="
-                                {{ path(
-                                    'edit_model',
-                                    {'model':item.getId()}
-                                ) }}
-                            ">
-                                {{ item.getModel() }}
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        <div>
+        <div class="col-sm mb-3">
+            <button
+                type="button"
+                class="btn btn-primary float-md-right float-sm-left"
+                data-toggle="modal"
+                data-target="#uploadModal"
+            >
+                Upload Excel
+            </button>
+
+            <a
+                class="btn btn-primary float-md-right float-sm-left"
+                href="{{ path('new_model') }}"
+            >
+                New Model
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        {% include "model/table.html.twig" %}
     </div>
 
 {% endblock %}

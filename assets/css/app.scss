@@ -4,6 +4,10 @@
 // @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import '~bootstrap/scss/bootstrap.scss';
 
+html, body, .body, .main{
+    height: 100%;
+}
+
 .footer {
     margin-bottom: 50px;
 }
@@ -12,6 +16,11 @@
     .search-bar {
         width: 50%;
     }
+}
+
+.form {
+    margin: 0 auto;
+    width: 95%;
 }
 
 .bar {
@@ -35,10 +44,14 @@
     width: 190px;
 }
 
+.rack-row {
+    height: 100%;
+}
+
 .rack {
     border: 1px solid black;
     width: 300px;
-    margin: 0 auto;
+    margin: 30px auto;
 }
 
 .rack .rack-header {
@@ -58,4 +71,12 @@
     border: 1px solid;
     padding: 0;
     text-align: center;
+}
+
+.rack .rack-index {
+    width: 32px;
+}
+
+.body > .row > .table-responsive-md {
+    width: 100%;
 }
