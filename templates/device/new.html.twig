@@ -5,7 +5,7 @@
             <div class="form-group">
                 {{ form_label(form.model) }}
                 {{ form_errors(form.model) }}
-                {{ form_widget(form.model, {'attr': {class: 'form-control'} }) }}
+                {{ form_widget(form.model, {'attr': {class: 'form-control device-model-select'} }) }}
             </div>
             <div class="form-group">
                 {{ form_label(form.serialNumber) }}
@@ -42,7 +42,6 @@
                 {{ form_errors(form.status) }}
                 {{ form_widget(form.status, {'attr': {class: 'form-control'} }) }}
             </div>
-
             <a
                 class="btn btn-warning"
                 href="{{ path('devices') }}"

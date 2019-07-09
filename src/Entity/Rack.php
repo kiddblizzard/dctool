@@ -51,6 +51,14 @@ class Rack
     private $row_name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="integer", nullable=true, options={"default" = 42})
+     *
+     */
+    private $height;
+
+    /**
     * @ORM\OneToMany(targetEntity="App\Entity\PowerSource", mappedBy="rack")
     * @ORM\JoinColumn(nullable=true)
     */
@@ -168,6 +176,18 @@ class Rack
                 $powerSource->setRack(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHeight(): ?int
+    {
+        return $this->height;
+    }
+
+    public function setHeight(?int $height): self
+    {
+        $this->height = $height;
 
         return $this;
     }

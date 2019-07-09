@@ -14,6 +14,7 @@
     "blueimp-file-upload": "^9.31.0",
     "bootstrap-datepicker": "^1.9.0",
     "core-js": "^2.6.9",
+    "jquery-autocompleter": "^0.3.0",
     "jquery-file-upload": "^4.0.11",
     "jquery-ui": "^1.12.1",
     "js-xlsx": "^0.8.22"

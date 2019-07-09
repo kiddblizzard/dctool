@@ -1,0 +1,112 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% include "device/enclosureModal.html.twig" %}
+    {% include "device/bladeModal.html.twig" %}
+    <div class="row">
+        <div class="col-sm">
+            <p>
+                <span>Device Name: </span>
+                {{ device.getName() }}
+            </p>
+        </div>
+        <div class="col-sm">
+            <p>
+                <span>Seail Number: </span>
+                {{ device.getSerialNumber()}}
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <p>
+                <span>Barcode: </span>
+                {{ device.getBarcodeNumber() }}
+            </p>
+        </div>
+        <div class="col-sm">
+            <p>
+                <span>Model: </span>
+                {{ device.getModel().getModel() }}
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <p>
+                <span>Rack: </span>
+                {% if device.getRack() is not null%}
+                    {{ device.getRack().getName() }}
+                {% endif %}
+            </p>
+        </div>
+        <div class="col-sm">
+            <p>
+                <span>Unit: </span>
+                {{ device.getUnit()}}
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <p>
+                <span>Status: </span>
+                {{ device.getStatus()}}
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        {% if isBlade %}
+        <div class="col-sm">
+            <p>
+                <span>
+                    Enclosure:
+                    <button
+                        data-toggle="modal"
+                        data-target="#enclosureModal"
+                    >
+                        Edit
+                    </button>
+                </span>
+                {% if device.getParent() is not null %}
+                    {{ device.getParent().getName() }}
+                {% endif %}
+            </p>
+        </div>
+        {% endif %}
+        {% if isEnclosure %}
+        <div class="col-sm">
+            <p>
+                <span>
+                    Blades:
+                    <button
+                        data-toggle="modal"
+                        data-target="#bladeModal"
+                    >
+                        Edit
+                    </button>
+                </span>
+                {% if device.getChildren() is not null %}
+                    {% for blade in device.getChildren() %}
+                        <p>{{ blade.getName() }}</p>
+                    {% endfor %}
+                {% endif %}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <p>
+                <a class="btn btn-warning"
+                    href="
+                    {{ path(
+                        'edit_device',
+                        {'device':device.getId()}
+                    ) }}"
+                >
+                    Edit
+                </a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
