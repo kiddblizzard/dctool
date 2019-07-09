@@ -13,6 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Button;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use App\Entity\Rack;
@@ -69,28 +72,27 @@ class DeviceController extends Controller
      */
     public function newAction(Request $request)
     {
+        $isEnclosure = false;
+        $isBlade = false;
         $device = new Device();
-
-        $manufacturers = $this->getManufacturerRepository()->findAll();
-
         $form = $this->getDeivceForm(
             $device,
             $this->generateUrl('new_device')
         );
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $device = $form->getData();
-            $this->saveEntity($device);
+            $this->save($device);
 
             return $this->redirectToRoute('devices');
         }
 
         return $this->render('device/new.html.twig', array(
-            'manufacturers' => $manufacturers,
             'form' => $form->createView(),
-            'navbar' => 'device'
+            'navbar' => 'device',
+            'isEnclosure' => $isEnclosure,
+            'isBlade' => $isBlade
         ));
     }
 
@@ -102,6 +104,17 @@ class DeviceController extends Controller
      */
     public function editAction(Device $device, Request $request)
     {
+        $isEnclosure = false;
+        $isBlade = false;
+
+        if(!is_null($device->getModel())) {
+            if ('ENCLOSURE' == $device->getModel()->getType()) {
+                $isEnclosure = true;
+            } else if ('BLADE' == $device->getModel()->getType()) {
+                $isBlade = true;
+            }
+        }
+
         $form = $this->getDeivceForm(
             $device,
             $this->generateUrl(
@@ -110,21 +123,49 @@ class DeviceController extends Controller
             )
         );
 
-        $manufacturers = $this->getManufacturerRepository()->findAll();
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $device = $form->getData();
-            $this->saveEntity($device);
+            $this->save($device);
 
             return $this->redirectToRoute('devices');
         }
 
         return $this->render('device/new.html.twig', array(
-            'manufacturers' => $manufacturers,
             'form' => $form->createView(),
-            'navbar' => 'device'
+            'navbar' => 'device',
+            'isEnclosure' => $isEnclosure,
+            'isBlade' => $isBlade
+        ));
+    }
+
+    /**
+     * @Route("/devices/{device}", name="device_detail")
+     * @param  Device $device
+     * @param  Request $request [description]
+     * @return [type] [description]
+     */
+    public function getDetailAction(Device $device)
+    {
+        $isEnclosure = false;
+        $isBlade = false;
+        $enclosureForm = $this->getEnclosureForm($device);
+
+        if(!is_null($device->getModel())) {
+            if ('ENCLOSURE' == $device->getModel()->getType()) {
+                $isEnclosure = true;
+            } else if ('BLADE' == $device->getModel()->getType()) {
+                $isBlade = true;
+            }
+        }
+
+        return $this->render('device/detail.html.twig', array(
+            'navbar' => 'device',
+            'device' => $device,
+            'enclosureForm' => $enclosureForm->createView(),
+            'isEnclosure' => $isEnclosure,
+            'isBlade' => $isBlade,
         ));
     }
 
@@ -178,7 +219,7 @@ class DeviceController extends Controller
                         $rackEntity = New Rack();
                         $rackEntity->setName($rackName);
                         $rackEntity->setRackRow($rackRow);
-                        $this->saveEntity($rackEntity);
+                        $this->save($rackEntity);
                     }
 
                     $manufacturerEntity = $this->getManuRepository()
@@ -187,7 +228,7 @@ class DeviceController extends Controller
                     if (is_null($manufacturerEntity)) {
                         $manufacturerEntity = New Manufacturer();
                         $manufacturerEntity->setName($manufacturer);
-                        $this->saveEntity($manufacturerEntity);
+                        $this->save($manufacturerEntity);
                     }
 
                     $modelEntity = $this->getModelRepository()
@@ -206,7 +247,7 @@ class DeviceController extends Controller
                         $modelEntity->setManufacturer($manufacturerEntity);
                         $modelEntity->setType();
                         $modelEntity->setModel($model);
-                        $this->saveEntity($modelEntity);
+                        $this->save($modelEntity);
                     }
 
                     $device = New Device();
@@ -217,7 +258,7 @@ class DeviceController extends Controller
                     $device->setSerialNumber($sn);
                     $device->setBarcodeNumber($barcode);
 
-                    $this->saveEntity($device);
+                    $this->save($device);
                 }
             } catch(\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
                 die('Error loading file: '.$e->getMessage());
@@ -242,6 +283,17 @@ class DeviceController extends Controller
      */
     private function getDeivceForm(Device $device, $path)
     {
+        $isEnclosure = false;
+        $isBlade = false;
+
+        if(!is_null($device->getModel())) {
+            if ('ENCLOSURE' == $device->getModel()->getType()) {
+                $isEnclosure = true;
+            } else if ('BLADE' == $device->getModel()->getType()) {
+                $isBlade = true;
+            }
+        }
+
         return $this->createFormBuilder($device)
             ->setAction($path)
             ->setMethod('POST')
@@ -256,27 +308,48 @@ class DeviceController extends Controller
             ->add('po', TextType::class, ['required' => false])
             ->add('rack', TextType::class, ['required' => false])
             ->add('rack', EntityType::class, [
+                'placeholder' => 'Choose an option',
                 'class' => Rack::class,
                 'choice_label' => 'name',
+                'required' => false
             ])
             ->add('unit', IntegerType::class, ['required' => false])
             ->add('status', ChoiceType::class, [
+                'placeholder' => 'Choose an option',
                 'choices'  => [
                     'In Depository' => 'in_depository',
                     'Running' => 'running',
                     'Isolated' => 'isolated',
-                    'Decommission' => 'decommission'
+                    'Decommissioned' => 'decommissioned'
                 ],
             ])
             ->add('save', SubmitType::class, array('label' => 'Submit'))
             ->getForm();
     }
 
-    private function saveEntity($entity)
+    private function getEnclosureForm(Device $device)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($entity);
-        $entityManager->flush();
+        return $this->createFormBuilder($device)
+            ->add('id', HiddenType::class)
+            ->add('parent', EntityType::class, [
+                'placeholder' => 'Choose an option',
+                'class' => Device::class,
+                'choices'  => $this->getDeviceRepository()->findEnclosures(false),
+                'choice_label' => 'name',
+                'label' => 'Enclosure',
+                'required' => false,
+            ])
+            // ->add('children', EntityType::class, [
+            //     'placeholder' => 'Choose an option',
+            //     'class' => Device::class,
+            //     'choices'  => $this->getDeviceRepository()->findBlades(false),
+            //     'choice_label' => 'name',
+            //     'multiple' => true,
+            //     'expanded' => false,
+            //     'label' => 'Blades',
+            //     'required' => false,
+            // ])
+            ->getForm();
     }
 
 }

@@ -66,18 +66,16 @@ class DeviceRepository extends ServiceEntityRepository
         $name,
         $barcode
     ) {
-        $a = $this->createQueryBuilder('d')
+        $query = $this->createQueryBuilder('d')
             ->where('d.serial_number = :serial_number')
             ->orWhere('d.name = :name')
             ->orWhere('d.barcode_number = :barcode')
             ->setParameter('serial_number', $serialNumber)
             ->setParameter('name', $name)
             ->setParameter('barcode', $barcode)
-            ->orderBy('d.id', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('d.id', 'ASC');
 
-        return $a;
+        return $query->getQuery()->getResult();
     }
 
     public function findByRackByUnit($rack, $unit)
@@ -114,5 +112,61 @@ class DeviceRepository extends ServiceEntityRepository
             ->setParameter('2', 'running');
 
         return $query->getQuery()->getOneOrNullResult();
+    }
+
+    public function findEnclosures($decom = false){
+
+        $query = $this->createQueryBuilder('d');
+        $query->leftJoin('d.model',  'm')
+            ->where('m.type = :type');
+        if (!$decom) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    'd.status = ?1',
+                    'd.status = ?2',
+                    'd.status = ?3'
+                ))
+                ->setParameter('1', 'isolated')
+                ->setParameter('2', 'in_depository')
+                ->setParameter('3', 'running');
+        }
+
+        $query->setParameter('type', 'ENCLOSURE')
+            ->orderBy('d.id', 'ASC');
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function findBlades(Device $parent, $keyWord, $limit, $decom = false)
+    {
+        $query = $this->createQueryBuilder('d');
+        $query->leftJoin('d.model',  'm')
+            ->where('m.type = :type')
+            ->andWhere($query->expr()->like('d.name', ':keyWord'))
+            ->andWhere(
+                $query->expr()->orX(
+                    $query->expr()->neq('d.parent', ':parent'),
+                    $query->expr()->isNull('d.parent')
+                )
+            );
+        if (!$decom) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    'd.status = ?1',
+                    'd.status = ?2',
+                    'd.status = ?3'
+                ))
+                ->setParameter('1', 'isolated')
+                ->setParameter('2', 'in_depository')
+                ->setParameter('3', 'running');
+        }
+
+        $query->setParameter('type', 'BLADE')
+            ->setParameter('keyWord', '%'.$keyWord.'%')
+            ->setParameter('parent', $parent)
+            ->setMaxResults($limit)
+            ->orderBy('d.id', 'ASC');
+
+        return $query->getQuery()->getResult();
     }
 }

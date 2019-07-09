@@ -1,0 +1,56 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="enclosureModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="EnclosureModel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5
+                    class="modal-title"
+                    id="enclosureModalTitle"
+                >
+                    Enclosure
+                </h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(enclosureForm, {'attr': {class: 'form'}}) }}
+                    <div class="form-group device-parent
+                        {% if not isBlade %}
+                            d-none
+                        {% endif %}">
+                        {{ form_label(enclosureForm.parent) }}
+                        {{ form_errors(enclosureForm.parent) }}
+                        {{ form_widget(
+                            enclosureForm.parent,
+                            {'attr': {class: 'form-control'} }
+                        ) }}
+                    </div>
+                    <span id="enclosure-msg" ><span>
+
+                    {{ form_widget(enclosureForm.id) }}
+                {{ form_end(enclosureForm) }}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary float-right enclosure-save">
+                    Save
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end Modal -->

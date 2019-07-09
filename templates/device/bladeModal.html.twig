@@ -1,0 +1,63 @@
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="bladeModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="BladeModel"
+    aria-hidden="true"
+    data-backdrop="true"
+>
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5
+                    class="modal-title"
+                    id="bladeModalTitle"
+                >
+                    Blades
+                </h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form">
+                    <div class="form-group children-list">
+                        {% for one in device.getChildren() %}
+                        <p class="child-p">
+                            {{ one.getName() }}
+                            <button
+                                type="button"
+                                class="remove-child close float-none"
+                                aria-label="Close"
+                                data-id="{{ one.getId() }}"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </p>
+                        {% endfor %}
+                        <input
+                            type="text"
+                            data-id="{{ device.getId() }}"
+                            class="form-control"
+                            id="blade-input"
+                        >
+                    </div>
+                    <span id="blade-msg" ><span>
+                </form>
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end Modal -->

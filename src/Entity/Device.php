@@ -852,8 +852,13 @@ class Device
         return $this;
     }
 
-    public function getUnitFrom(): intval
+    public function getUnitFrom()
     {
-        return $this->unit - $this->getModel()->getHeight();
+
+        if (!is_null($this->unit)) {
+            return $this->unit - $this->getModel()->getHeight();
+        }
+
+        return 0;
     }
 }

@@ -39,7 +39,7 @@ class NavigatorController extends Controller
     {
         $session = new Session();
 
-        if (is_null($session->get('site'))) {
+        if (!is_null($this->getUser()) && is_null($session->get('site'))) {
             $sites = $this->getUser()->getSites();
             $site = $site[0];
         } else {

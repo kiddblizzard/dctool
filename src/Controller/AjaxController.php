@@ -329,4 +329,176 @@ class AjaxController extends FOSRestController
         return $manufacturer->getModels();
     }
 
+    /**
+     * @Get("/ajax/model/{model}", name="ajax_get_model")
+     * @param  Model $model [description]
+     * @return [type] [description]
+     */
+    public function getModel(Model $model)
+    {
+        $this->result['result'] = $model;
+
+        return $this->result;
+    }
+
+    /**
+     * @Get("/ajax/autocomplete/enclosure", name="ajax_autocomplete_enclosure")
+     * @param  Model $model [description]
+     * @return [type] [description]
+     */
+    public function getEnclosure()
+    {
+
+        return $enclosures = $this->getDeviceRepository()->findEnclosures(false);
+        // return array_map(
+        //     function(Device $device) {
+        //         return [
+        //             'value' => $device,
+        //             'label' => $device->getName()
+        //         ];
+        //     },
+        //     $enclosures
+        // );
+    }
+
+    /**
+     * @Get("/ajax/autocomplete/{device}/blades", name="ajax_autocomplete_enclosure")
+     * @param  Request $request [description]
+     * @param  Device $device [description]
+     * @return [type] [description]
+     */
+    public function getBlades(Request $request, Device $device)
+    {
+        $keyWord = $request->query->get('query');
+        $limit = $request->query->get('limit');
+        $blades = $this->getDeviceRepository()
+            ->findBlades($device, $keyWord, $limit, false);
+
+        return array_map(
+            function(Device $device) {
+                return [
+                    'value' => $device,
+                    'label' => $device->getName()
+                ];
+            },
+            $blades
+        );
+    }
+
+    /**
+     * @Post("/ajax/devices/{device}/parent", name="ajax_post_device_parent")
+     * @param  Request $request [description]
+     * @param  Device $device [description]
+     * @return [type] [description]
+     */
+    public function postDeviceParentAction(Request $request, Device $device)
+    {
+        if (is_null($device)) {
+            $this->result['error'] = 1;
+            $this->result['msg'] = 'Device is not found.';
+
+            return $this->result;
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        if (empty($data['parent'])) {
+            $device->setParent(NULL);
+            $this->save($device);
+
+            $this->result['error'] = 0;
+            $this->result['msg'] = 'Enclosure has been removed';
+            $this->result['device'] = $device;
+            return $this->result;
+        }
+
+        $parent = $this->getDeviceRepository()->find($data['parent']);
+
+        if (!is_null($parent) && 'ENCLOSURE' == $parent->getModel()->getType()) {
+            $parent->addChild($device);
+            $this->save($parent);
+
+            $this->result['error'] = 0;
+            $this->result['msg'] = 'Enclosure has been added';
+            $this->result['device'] = $device;
+            return $this->result;
+        }
+
+        $this->result['error'] = 1;
+        $this->result['msg'] = 'Enclosure is not found.';
+
+        return $this->result;
+    }
+
+    /**
+     * @Post("/ajax/devices/{device}/child", name="ajax_post_device_child")
+     * @param  Request $request [description]
+     * @param  Device $device [description]
+     * @return [type] [description]
+     */
+    public function postDeviceChild(Request $request, Device $device)
+    {
+        if (is_null($device)) {
+            $this->result['error'] = 1;
+            $this->result['msg'] = 'Device is not found.';
+
+            return $this->result;
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        $child = $this->getDeviceRepository()->find($data['child']);
+
+        if (!is_null($child) && 'BLADE' == $child->getModel()->getType()) {
+            $child->setParent($device);
+            $this->save($child);
+
+            $this->result['error'] = 0;
+            $this->result['msg'] = 'Blade has been added';
+            $this->result['device'] = $device;
+            return $this->result;
+        }
+
+        $this->result['error'] = 1;
+        $this->result['msg'] = 'Blade is not found.';
+
+        return $this->result;
+
+    }
+
+    /**
+     * @Delete("/ajax/devices/{device}/child", name="ajax_delete_device_child")
+     * @param  Request $request [description]
+     * @param  Device $device [description]
+     * @return [type] [description]
+     */
+    public function deleteDeviceChild(Request $request, Device $device)
+    {
+        if (is_null($device)) {
+            $this->result['error'] = 1;
+            $this->result['msg'] = 'Device is not found.';
+
+            return $this->result;
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        $child = $this->getDeviceRepository()->find($data['child']);
+
+        if (!is_null($child) && 'BLADE' == $child->getModel()->getType()) {
+            $device->removeChild($child);
+            $this->save($device);
+
+            $this->result['error'] = 0;
+            $this->result['msg'] = 'Blade has been removed';
+            $this->result['device'] = $device;
+            return $this->result;
+        }
+
+        $this->result['error'] = 1;
+        $this->result['msg'] = 'Blade is not found.';
+
+        return $this->result;
+
+    }
 }
