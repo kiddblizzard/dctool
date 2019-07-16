@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Constants\DeviceStatusOptions;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DeviceRepository")
@@ -318,6 +319,16 @@ class Device
      *
      */
     private $support_chg;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=true)
+     *
+     */
+    private $critical;
+
+
 
     public function __construct()
     {
@@ -852,6 +863,12 @@ class Device
         return $this;
     }
 
+    public function getStatusString(): string
+    {
+
+        return DeviceStatusOptions::getText($this->getStatus());
+    }
+
     public function getUnitFrom()
     {
 
@@ -860,5 +877,17 @@ class Device
         }
 
         return 0;
+    }
+
+    public function isCritical(): ?bool
+    {
+        return $this->critical;
+    }
+
+    public function setCritical(?bool $critical): self
+    {
+        $this->critical = $critical;
+
+        return $this;
     }
 }

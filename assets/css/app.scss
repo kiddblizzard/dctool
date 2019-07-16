@@ -1,12 +1,8 @@
 // customize some Bootstrap variables
 // $brand-primary: darken(#428bca, 20%);
-//
-// @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import '~bootstrap/scss/bootstrap.scss';
-
-html, body, .body, .main{
-    // height: 100%;
-}
+@import '~open-iconic/font/css/open-iconic-bootstrap.scss';
+// @import '~font-awesome/scss/font-awesome.scss';
 
 footer {
     margin-bottom: 50px;
@@ -16,6 +12,11 @@ footer {
     .search-bar {
         width: 50%;
     }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
 }
 
 .form {
@@ -61,16 +62,22 @@ footer {
     color: #FFFFFF;
 }
 
+.rack td {
+    border: 1px solid;
+    padding: 0;
+    text-align: center;
+}
+
 .rack .rack-unit {
     font-size: 10px;
     line-height: 10px;
     vertical-align: middle;
 }
 
-.rack td {
-    border: 1px solid;
-    padding: 0;
-    text-align: center;
+.rack div {
+    font-size: 10px;
+    // line-height: 10px;
+    // vertical-align: middle;
 }
 
 .rack .rack-index {

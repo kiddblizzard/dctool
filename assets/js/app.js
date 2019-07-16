@@ -1,6 +1,8 @@
 const $ = require('jquery');
 require('../css/app.scss');
 require('bootstrap');
+require('open-iconic/font/css/open-iconic-bootstrap.css');
+// require('font-awesome/css/font-awesome.min.css');
 require('blueimp-file-upload');
 // require('bootstrap-datepicker');
 require('jquery-autocompleter');
@@ -361,3 +363,9 @@ $(function() {
         return html;
     }
 });
+
+$(function () {
+    $('.example-popover').popover({
+        container: 'body'
+    })
+})

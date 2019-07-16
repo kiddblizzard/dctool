@@ -43,8 +43,8 @@ class RackController extends Controller
         for($i=$rackHigh;$i>0;$i--) {
             $device = $this->getDeviceRepository()
                 ->findByRackByTopUnit($rack, $i);
+            $units[$i] = $device;
 
-                $units[$i] = $device;
             if(!is_null($device)) {
                 $i = $i - $device->getModel()->getHeight() + 1;
             }
