@@ -339,16 +339,6 @@ class DeviceController extends Controller
                 'label' => 'Enclosure',
                 'required' => false,
             ])
-            // ->add('children', EntityType::class, [
-            //     'placeholder' => 'Choose an option',
-            //     'class' => Device::class,
-            //     'choices'  => $this->getDeviceRepository()->findBlades(false),
-            //     'choice_label' => 'name',
-            //     'multiple' => true,
-            //     'expanded' => false,
-            //     'label' => 'Blades',
-            //     'required' => false,
-            // ])
             ->getForm();
     }
 

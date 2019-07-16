@@ -83,7 +83,7 @@ class DeviceRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('d');
         $query->leftJoin('d.model',  'm');
         $query->Where('d.rack = :rack')
-            ->andWhere('d.unit + m.height - 1 = :unit')
+            ->andWhere('d.unit = :unit - m.height + 1')
             ->andWhere($query->expr()->orX(
                     'd.status = ?1',
                     'd.status = ?2'
@@ -101,7 +101,7 @@ class DeviceRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('d');
         $query->leftJoin('d.model',  'm');
         $query->Where('d.rack = :rack')
-            ->andWhere('d.unit - m.height + 1 = :unit')
+            ->andWhere('d.unit = :unit - m.height + 1')
             ->andWhere($query->expr()->orX(
                     'd.status = ?1',
                     'd.status = ?2'

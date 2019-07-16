@@ -14,8 +14,6 @@
                             </th>
                         </tr>
                     </thead>
-
-
                     <tbody>
                         {% for i in rack.getHeight()..1 %}
                         <tr>
@@ -25,24 +23,44 @@
 
                             {% if units[i] is not defined %}
 
-
                             {% elseif units[i] is not null %}
                                 {% set device = units[i] %}
-                            <td class="rack-unit" rowspan={{ device.getModel().getHeight() }}>
-
-                                <a href="
-                                {{ path(
-                                    'edit_device',
-                                    {'device':device.getId()}
-                                ) }}
-                            ">
-                                {{ device.getName() }}
-                            </a><br />
-                            {{ device.getSerialNumber() }}&nbsp;&nbsp;&nbsp;&nbsp;
-                            {{ device.getBarcodeNumber() }}
-
-                            </td>
-                            {% elseif units[i] is null %}
+                                <td class="rack-unit" rowspan={{ device.getModel().getHeight() }}>
+                                    <div class="row ml-0 mr-0">
+                                        <div class="col-1">
+                                            {% if device.isCritical() %}
+                                            <span
+                                                class="oi oi-bookmark text-danger"
+                                                title="icon info"
+                                                aria-hidden="true"
+                                            >
+                                            </span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col">
+                                            <a href="
+                                                {{ path(
+                                                    'edit_device',
+                                                    {'device':device.getId()}
+                                                ) }}
+                                            ">
+                                                {{ device.getName() }}
+                                            </a><br />
+                                            {{ device.getSerialNumber() }}
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            {{ device.getBarcodeNumber() }}
+                                        </div>
+                                        <div class="col-1">
+                                            <span
+                                                class="oi oi-info"
+                                                title="icon info"
+                                                aria-hidden="true"
+                                            >
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                                {% elseif units[i] is null %}
                                 <td></td>
                             {% endif %}
 
