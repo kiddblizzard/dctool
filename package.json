@@ -11,7 +11,7 @@
     "webpack-notifier": "^1.5.0"
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "blueimp-file-upload": "^9.31.0",
     "bootstrap-datepicker": "^1.9.0",
     "core-js": "^2.6.9",
